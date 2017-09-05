@@ -43,11 +43,12 @@
 branches in git are very cheap (really cheap!) so branch away
 * `git checkout -b <new_branch_name>`
 
-#### ignoring changes
+#### ignoring changes for a single file
 *	`git checkout <file name>`
-	OR
 
-*	`to ignore multiple file changes`
+OR
+
+#### to ignore multiple file changes
 *	`git checkout .`
 
 

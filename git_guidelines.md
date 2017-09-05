@@ -3,6 +3,11 @@
 ## for prashanth
 
 ## Some points to remember
++ Always pull before you push.
++ Usual cycle should be like - Pull - Merge - Commit - Push. Repeat.
++ Commit frequently. (Seriously I am not kidding, even a change spanning 10 lines of code can be committed. Git takes care of it.) The frequent commit practice would aid you in case you break the system.
++ Branch in case you want to experiment. One need not take risks on the master.
++ As far as possible always try to compile before push. Better to push only if the compilation succeeds.
 
 
 #### initial cloning
@@ -19,13 +24,13 @@
 
 * `git add <filename>`
 
-#### to commit 
+#### to commit
 * `git commit -m <commit message>`
 
 #### push - to commit your changes to the cloud
 * `git push origin master`
 
-#### to checkout a particular commit 
+#### to checkout a particular commit
 * `git checkout <commit-SHA>`
 
 	OR
@@ -63,5 +68,3 @@ but the commit stays in the local system
 
 #### to remove the most recent local
 * `git reset --hard HEAD~`
-
-

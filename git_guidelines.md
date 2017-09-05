@@ -10,11 +10,11 @@ git pull is equivalent of git fetch + git merge
 git pull origin master
 
 to add files (to stage files for commiting)
-	git add .
+* git add .
 
 	OR
 
-	git add <filename>
+* git add <filename>
 
 to commit 
 * git commit -m <commit message>
@@ -23,7 +23,7 @@ to commit
 * git push origin master
 
 #to checkout a particular commit 
-*git checkout <commit-SHA>
+* git checkout <commit-SHA>
 
 	OR
 
@@ -31,14 +31,14 @@ to commit
 *	git checkout FETCH_HEAD
 
 to view list of commits
-*git log
+* git log
 
 to view general status
-git status
+* git status
 
 to create branch
 branches in git are very cheap (really cheap!) so branch away
-*git checkout -b <new_branch_name>
+* git checkout -b <new_branch_name>
 
 ignoring changes
 *	git checkout <file name>

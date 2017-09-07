@@ -69,4 +69,4 @@ but the commit stays in the local system
 #### to remove the most recent local
 * `git reset --hard HEAD~`
 
-<script src="https://gist.github.com/<gist_id>.js"> </script>
+&ltscript src="https://gist.github.com/&ltgist_id&gt.js"&gt &lt/script&gt

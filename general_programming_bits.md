@@ -1,6 +1,14 @@
 ### Intro on Dynamic programming and recursion
 
-* A good way to look at dynamic programming problems would be in a **bottom-up** approach. Here is a simple illustration of the difference between a top-down and a bottom-up approach.
+* A good way to look at dynamic programming problems would be in a **bottom-up** approach. 
+
+> Here is a simple illustration of the difference between a top-down and a bottom-up approach.
+
+kasjh | kjsfh | kjfm
+--- | --- | ---
+zmcnm | mnbc | iuy
+zmxcb |qiuwe | nmbc
+
 
 
 bottom-up approach | I will learn programming. I will solve simple problems. I will move onto more challenging problems. I will start toy projects and more serious projects. I will become an amazing coder.

@@ -27,7 +27,7 @@
 3. Document
 4. Column-family
 
-* Explanations
+### Explanations
 
 1. Key Value store
 	1. We just need a key to retrieve. Can be anything stored as a value.
@@ -38,3 +38,12 @@
 	1. It stores info as documents. What format should the document be is a natural question?
   	2. It can be in JSON or XML.
   	3. So, we can query the DB so that it actually extracts these fields from the JSON docs.
+
+3. Column family DB
+	1. There is a unique row ID for one particular object which identifies the entire obj. Then for each fields, there are column IDs. Each of the column IDs correspond to different fields of the object.
+	2. <Should read more>
+
+### Wow! Seems like NoSQL is awesome. but is it though??
+1. When objects are simply retrieved as such, it is no problem to scale and clusterize. Are there any problems with this approach?
+2. yes there are a few problems. NoSQL uses an aggregate style which is mapped on storage. Eg. The objects are usually stored per user basis. like, all the orders, invoices, products and history are stored as belonging to one person.
+3. The problem arises when, we want to do an analysis of all the orders of the users - like - determining the orders cost done this year and last year.

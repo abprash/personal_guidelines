@@ -59,7 +59,7 @@ Can be found [https://www.youtube.com/watch?v=qI_g07C_Q5I](here). If you haven't
 3. The third and the outlier which does not belong here is the **Graph databases**.
 
 
-* Relational Databases - update based on ACID properties. Whereas NoSQL db update based on BASE (~~Should see what this is later~~).
+* Relational Databases - update based on ACID properties. Whereas NoSQL db update based on BASE (~Should see what this is later~).
 
 ### CAP theorem
 * In case of a network partition, we have to choose between either Consistency or Availability. We **CANNOT** have both. 

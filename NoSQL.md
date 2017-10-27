@@ -35,6 +35,6 @@
   	3. Simply said, its like a hashmap.
 
 2. Document DB
-  1. It stores info as documents. What format should the document be is a natural question?
-  2. It can be in JSON or XML.
-  3. So, we can query the DB so that it actually extracts these fields from the JSON docs.
+	1. It stores info as documents. What format should the document be is a natural question?
+  	2. It can be in JSON or XML.
+  	3. So, we can query the DB so that it actually extracts these fields from the JSON docs.

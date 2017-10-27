@@ -1,4 +1,5 @@
 ## Intro to NoSQL - Martin Fowler
+Can be found [https://www.youtube.com/watch?v=qI_g07C_Q5I](here). If you haven't seen this, you should definitely watch to get an overview.
 
 ### History of Nosql
 * SQL was standard in the past. They also had some problems, we assemble structures of business objects, into structurally different rows in multiple tables leading to a lot of awkward problems. It is called **impedance matching**. Complex business objects were stripped of their characteristics.
@@ -46,4 +47,19 @@
 ### Wow! Seems like NoSQL is awesome. but is it though??
 1. When objects are simply retrieved as such, it is no problem to scale and clusterize. Are there any problems with this approach?
 2. yes there are a few problems. NoSQL uses an aggregate style which is mapped on storage. Eg. The objects are usually stored per user basis. like, all the orders, invoices, products and history are stored as belonging to one person.
-3. The problem arises when, we want to do an analysis of all the orders of the users - like - determining the orders cost done this year and last year.
+3. The problem arises when, we want to do an analysis of all the orders of the users - like - determining the orders cost done this year and last year. ** It is a disadvantage if we want to slice and dice the data in different ways**
+
+### Aggregate DB style 
+1. So, looks like the above 3 database structures can be classified into a supertype of DB structure called as Aggregate Databases.
+2. Aggregate style is the heart of the following no sql db styles  
+	1. Key value style
+	2. Document DB
+	3. Column Family
+
+3. The third and the outlier which does not belong here is the **Graph databases**.
+
+
+* Relational Databases - update based on ACID properties. Whereas NoSQL db update based on BASE (~~Should see what this is later~~).
+
+### CAP theorem
+* In case of a network partition, we have to choose between either Consistency or Availability. We **CANNOT** have both. 

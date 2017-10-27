@@ -1,5 +1,5 @@
 ## Intro to NoSQL - Martin Fowler
-Can be found [https://www.youtube.com/watch?v=qI_g07C_Q5I](here). If you haven't seen this, you should definitely watch to get an overview.
+### Credits : Can be found [here](https://www.youtube.com/watch?v=qI_g07C_Q5I). If you haven't seen this, you should definitely watch to get an overview.
 
 ### History of Nosql
 * SQL was standard in the past. They also had some problems, we assemble structures of business objects, into structurally different rows in multiple tables leading to a lot of awkward problems. It is called **impedance matching**. Complex business objects were stripped of their characteristics.
@@ -59,7 +59,7 @@ Can be found [https://www.youtube.com/watch?v=qI_g07C_Q5I](here). If you haven't
 3. The third and the outlier which does not belong here is the **Graph databases**.
 
 
-* Relational Databases - update based on ACID properties. Whereas NoSQL db update based on BASE (~Should see what this is later~).
+* Relational Databases - update based on ACID properties. Whereas NoSQL db update based on BASE (_should see what this is later_).
 
 ### CAP theorem
 * In case of a network partition, we have to choose between either Consistency or Availability. We **CANNOT** have both. 

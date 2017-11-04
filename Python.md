@@ -2,7 +2,7 @@
 
 ### Major Data structures in Python
 
-### References -> https://docs.python.org/3/tutorial/datastructures.html
+### References -> (here) [https://docs.python.org/3/tutorial/datastructures.html]
 
 * There is **no new** keyword in Python. So do not use it while declaring anything
 
@@ -53,3 +53,19 @@ eg.
  f = open("file.txt", "w") # in write mode
  f = open("file.txt","rw") #we can do both also
  ```
+2. File writing
+
+` f.write("whatever we want")`
+
+3. Reading from file
+* We typically read line by line
+
+```
+for line in f:
+	#do more stuff
+	print(line)
+```
+OR
+```
+all_content = f.readlines()
+```

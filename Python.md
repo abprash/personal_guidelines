@@ -2,7 +2,7 @@
 
 ### Major Data structures in Python
 
-### References -> (here)[https://docs.python.org/3/tutorial/datastructures.html]
+### References -> [here](https://docs.python.org/3/tutorial/datastructures.html)
 
 * There is **no new** keyword in Python. So do not use it while declaring anything
 
@@ -22,7 +22,11 @@
 		deque.popleft() and deque.append("new one")
 	2. Stacks -> pop() and append(). They are sufficiently handled by lists itself. because lists have append() and pop().
 
-
+### General useful Python BIFs
+* BIF - Built In Functions
+* locals() = has a set of all variable names used in the current scope
+* str(x) = takes in an object as parameter to cast into a string. Usually used for printing anything like numbers, lists etc.
+* int(x) = will convert x into an integer. 
 
 ### Exception handling
 
@@ -55,7 +59,9 @@ eg.
  ```
 2. File writing
 
-` f.write("whatever we want")`
+```
+f.write("whatever we want")
+```
 
 3. Reading from file
 * We typically read line by line
@@ -69,3 +75,37 @@ OR
 ```
 all_content = f.readlines()
 ```
+
+4. A very standard way of working with files is
+
+```
+try:
+	file_handle = open("file.txt","w")
+	data = file_handle.readlines()
+except IOError as err:
+	print("Something happened " + str(err))
+finally:
+	if file_handle in locals():
+		file_handle.close()
+```
+
+An alternate way of doing it is the keyword - with
+* with - provides a uniform way of working with context managers (here file is a context).
+* Similar to the RAII idiom - Resource Acquired In Initiliazation. or CADRE - Constructor Acquires and Destructor Releases.
+* Point being, with keyword provides a context for using a resource. It is guaranteed to be acquired as long as we are in the with block and will be released after leaving it. NO MATTER IF WE LEAVE THE SECTION VIA AN EXCEPTION OR NORMAL EXECUTION. So with **simplifies exception handling by taking care of common preparation and cleanup tasks by the use of so called context managers**.
+* So, we need not need an explicit finally statement if we are using with keyword.
+* So, in a way it is much cleaner.
+* open() also does the same like a context manager.
+
+> A much cleaner way would be
+```
+try:
+	with open("file.txt","r") as fh:
+		content = fh.readlines()
+		print(content)
+except IOError as err:
+	print("Error :"+str(err))
+```
+
+
+

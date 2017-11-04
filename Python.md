@@ -27,6 +27,9 @@
 * locals() = has a set of all variable names used in the current scope
 * str(x) = takes in an object as parameter to cast into a string. Usually used for printing anything like numbers, lists etc.
 * int(x) = will convert x into an integer. 
+* print() = print("Something",file="file.txt") then, it will send contents to file.txt.
+* "string".strip() - its like java's trim(). will cut leading and trailing white spaces.
+* "string".split(",") - just like Java's split().
 
 ### Exception handling
 
@@ -96,7 +99,7 @@ An alternate way of doing it is the keyword - with
 * So, we need not need an explicit finally statement if we are using with keyword.
 * So, in a way it is much cleaner.
 * open() also does the same like a context manager.
-
+* **with** - takes advantage of Python's context management and takes care
 > A much cleaner way would be
 ```
 try:
@@ -107,5 +110,66 @@ except IOError as err:
 	print("Error :"+str(err))
 ```
 
+### Persistence
+
+* Its too much hassle if we have to always store data in files, then implement custom methods to read it. Its not worth it, because if the file format changes then the code should also change. Its brittle.
+* So python gives you the PICKLE. (Analogous to serialized Java objects)
+* Pickled objects can be persisted in files, and then read back into programs when needed.
+* Pickle uses a custom binary format for pickling called protocol. So, the file will be looking like gobbledygook.
+* example
+```
+import pickle
+
+list = []
+#some more operations on the list so that there is now lots of elements in the list
+
+#lets dump into a pickle first
+with open("file1.txt","wb") as fh1:
+	pickle.dump(list, fh1)
+	
+#then load from it
+with open("file1.txt","rb") as fh:
+	list_fromfile = fh.load()
+
+#then print it
+print(list_fromfile)
 
 
+```
+
+### Sorting
+* Python provides two methods for sorting. In-place sorting and copied sorting.
+```
+list = [1,2,5,1,4,2,88,2]
+
+list.sort() # will do an in place sorting
+
+list2 = sorted(list) #will do a copy of the data, and return the sorted list
+
+```
+
+
+### List Comprehensions
+* Short hand way of applying some functions on all list elements
+* or copying elements from one to another list after some mutators
+* List comprehension is preferred when we have to do a simple operation which can usually be expressed in one line.
+* Its python's way of providing support for some functional programming concepts
+
+> example of list comprehensions
+```
+x_list = [1,2,3]
+new_list = [x**2 for x in x_list]
+```
+
+
+### Dictionaries
+* Hash, mapping, associative arrays - its all dictionaries.
+* When you have data with some structure, its always better to use a dict.
+> dict() or {}
+
+###Sets
+* Chief goal : Eliminate duplicates.
+> set()
+
+
+### Object Oriented Python (Oops Object Oriented Programming with Python)

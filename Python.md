@@ -90,7 +90,7 @@ finally:
 
 An alternate way of doing it is the keyword - with
 * with - provides a uniform way of working with context managers (here file is a context).
-* Similar to the RAII idiom - Resource Acquired In Initiliazation. or CADRE - Constructor Acquires and Destructor Releases.
+* Similar to the RAII idiom - Resource Acquire Is Initiliazation. or CADRE - Constructor Acquires and Destructor Releases.
 * Point being, with keyword provides a context for using a resource. It is guaranteed to be acquired as long as we are in the with block and will be released after leaving it. NO MATTER IF WE LEAVE THE SECTION VIA AN EXCEPTION OR NORMAL EXECUTION. So with **simplifies exception handling by taking care of common preparation and cleanup tasks by the use of so called context managers**.
 * So, we need not need an explicit finally statement if we are using with keyword.
 * So, in a way it is much cleaner.

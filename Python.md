@@ -48,6 +48,8 @@ finally:
 ### File handling
 1. Opening files f = open("filename.extension","open mode")
 eg.
-> f = open("file.txt","r") # will open file in read mode
-> f = open("file.txt", "w") # in write mode
-> f = open("file.txt","rw") #we can do both also
+```
+ f = open("file.txt","r") # will open file in read mode
+ f = open("file.txt", "w") # in write mode
+ f = open("file.txt","rw") #we can do both also
+ ```

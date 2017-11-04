@@ -2,7 +2,7 @@
 
 ### Major Data structures in Python
 
-### References -> (here) [https://docs.python.org/3/tutorial/datastructures.html]
+### References -> (here)[https://docs.python.org/3/tutorial/datastructures.html]
 
 * There is **no new** keyword in Python. So do not use it while declaring anything
 

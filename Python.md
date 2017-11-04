@@ -6,15 +6,15 @@
 
 * There is **no new** keyword in Python. So do not use it while declaring anything
 
-1. Lists -> 
+1. Lists  
 > [] (or) list()
-2. Tuples -> 
+2. Tuples  
 > () (or) tuple()
 	1. Tuples are immutable. They cannot be changed after creation.
 	2. They are almost similar to records. Used for associating one value to another.
-3. Sets ->  
+3. Sets   
 > set()
-4. Dictionaries -> 
+4. Dictionaries 
 > {} or dict()
 5. Queues and stacks -> Lists themselves can be used like stacks and queues. Lists have those methods like pop() and append(). But lists are **NOT EFFICIENT** for this purpose, because for every pop, we have to shift the elements by one. So use Collections -> deque
 	1. Queues -> popleft(), and append() [**NOT EFFICIENT**]
@@ -26,23 +26,23 @@
 
 ### Exception handling
 
->
->try:
->	#do something here
->	#more
->except:
->	#code to run upon exception
-
+```
+try:
+	#do something here
+	#more
+except:
+	#code to run upon exception
+```
 * A much more elegant way of doing things
 
->
->try:
->	#stuff
->except <Specific exception type like IOError, ValueError>:
->	#runs upon exception
->finally:
->	#runs anyway... typically used to store cleanup code like closing files etc.
-
+```
+try:
+	#stuff
+except <Specific exception type like IOError, ValueError>:
+	#runs upon exception
+finally:
+	#runs anyway... typically used to store cleanup code like closing files etc.
+```
 
 
 ### File handling

@@ -169,3 +169,27 @@ new_list = [x**2 for x in x_list]
 
 
 ### Object Oriented Python (Oops Object Oriented Programming with Python)
+
+* Lets work on Coach Kelly's Athlete class
+
+```
+class Athlete:
+	def __init__(self):
+		self.name = ""
+		self.dob = ""
+		self.clock_times = []
+
+
+# So when we do an object instantiation
+sarah = Athlete()
+# python then converts and processes this call as follows,
+# 
+"""
+Athlete().__init__(sarah)
+Athlete = name of the class
+init = name of the method
+sarah = the instance it works on
+"""
+```
+
+* We can also extend from a built in class. For eg. our Athlete class itself is nothing more than a list. So, we directly inherit list from Python and add upon it. Which is a much better design.

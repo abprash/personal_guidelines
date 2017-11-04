@@ -6,17 +6,13 @@
 
 * There is **no new** keyword in Python. So do not use it while declaring anything
 
-1. Lists  
-> [] (or) list()
-2. Tuples  
-> () (or) tuple()
+1. Lists  = `[] (or) list()`
+2. Tuples = `() (or) tuple()`
 	1. Tuples are immutable. They cannot be changed after creation.
 	2. They are almost similar to records. Used for associating one value to another.
-3. Sets   
-> set()
-4. Dictionaries 
-> {} or dict()
-5. Queues and stacks -> Lists themselves can be used like stacks and queues. Lists have those methods like pop() and append(). But lists are **NOT EFFICIENT** for this purpose, because for every pop, we have to shift the elements by one. So use Collections -> deque
+3. Sets  = `set()`
+4. Dictionaries = `{} or dict()`
+5. Queues and stacks = Lists themselves can be used like stacks and queues. Lists have those methods like pop() and append(). But lists are **NOT EFFICIENT** for this purpose, because for every pop, we have to shift the elements by one. So use Collections -> deque
 	1. Queues -> popleft(), and append() [**NOT EFFICIENT**]
 		1. Queues are done with "from collections import deque",
 		deque.popleft() and deque.append("new one")
@@ -167,7 +163,7 @@ new_list = [x**2 for x in x_list]
 * When you have data with some structure, its always better to use a dict.
 > dict() or {}
 
-###Sets
+### Sets
 * Chief goal : Eliminate duplicates.
 > set()
 

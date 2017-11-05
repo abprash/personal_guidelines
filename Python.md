@@ -229,8 +229,8 @@ class Child(Parent):
 * Python3 comes with SQLite. (I did not know that. I thought that was an Android specific feature.)
 * A simple flow would go like this. 
 	1. Import SQLite module.
-	1. Connect with the Database
-	2. Get the cursor. (a cursor is something with which we can interact with the db. Think of it like a DB instance to modify and play with db data)
+	3. Connect with the Database
+	5. Get the cursor. (a cursor is something with which we can interact with the db. Think of it like a DB instance to modify and play with db data)
 	3. Do the changes using the cursor. Done by SQL queries (old times) or by an ORM methods.
 	4. Commit or rollback as required.
 	5. Close db connection

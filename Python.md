@@ -26,6 +26,13 @@
 * print() = print("Something",file="file.txt") then, it will send contents to file.txt.
 * "string".strip() - its like java's trim(). will cut leading and trailing white spaces.
 * "string".split(",") - just like Java's split().
+* type() = is used to find the type of instance an object is
+
+
+### Important Python Lingo
+* A method argument which always refers to the current object instance.
+* A method with a default argument value might well be equated as an optional argument. Since, even if not provided any value for that argument, it will be using the default value.
+
 
 ### Exception handling
 
@@ -193,3 +200,38 @@ sarah = the instance it works on
 ```
 
 * We can also extend from a built in class. For eg. our Athlete class itself is nothing more than a list. So, we directly inherit list from Python and add upon it. Which is a much better design.
+
+### Inheritance
+* Suppose class Child is inheriting class Parent, then the inheritance would be carried out like this:
+* **Multiple inheritance** IS possible in Python, but I should look at a good reference book for it.
+```
+class Parent:
+	#some methods and stuff for Parent
+	"""
+	some more
+	some more
+	"""
+
+class Child(Parent):
+	#some additional child methods and stuff
+	"""
+	whatever more you want
+	"""
+```
+
+
+### JSON
+* Its a language neutral data interchange format.
+* Since its JavaScript Object Notation, its everywhere. It has the same purpose as XML.
+* Its much more intuitive. Simple key value pair notation.
+
+### Database
+* Python3 comes with SQLite. (I did not know that. I thought that was an Android specific feature.)
+* A simple flow would go like this. 
+	0. Import SQLite module.
+	1. Connect with the Database
+	2. Get the cursor. (a cursor is something with which we can interact with the db. Think of it like a DB instance to modify and play with db data)
+	3. Do the changes using the cursor. Done by SQL queries (old times) or by an ORM methods.
+	4. Commit or rollback as required.
+	5. Close db connection
+

@@ -25,3 +25,8 @@ public void setHeight(int h){
 		this.height = 9;
 }
 ```
+
+
+### Other Java Gotchas
+* **Instance variables can be declared without any initializations**. No issues. Compiler gives them default values like 0, 0.0, false or null depending on the type. **But local variables must always be initialized before using.**
+* *We can actually have uninitialized variables. But when we try to use them the compiler freaks out.**

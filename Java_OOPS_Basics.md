@@ -62,6 +62,49 @@ public void method_name(){
 as the first line of the child method's implementation.
 
 * Polymorphism -> The object reference variable and the actual object are different types. Eg. Animal object reference variable can refer a Dog object or Cat object so forth.
-* Why are methods or classes declared final? It is because that marks the end of the inheritance tree. We cannot subclass it further.
+* Why are methods or classes declared final? It is because that marks the end of the inheritance tree. We cannot subclass it further. That is why most methods in the Java lang are marked final.
 * Private instance variables and private methods are not inherited.
 * final classes are not inherited. Non public classes cannot be inherited outside the package.
+
+
+### Overriding
+* When you override a parent's method, you are agreeing to the contract.
+* The contract here being, the method. 
+	* The parent method's same arguments must be used. Because, from the point of the compiler, it will only be able to see the reference method and not the actual object's methods even though it may be a valid overload.
+	* It should not be less restrictive than the parent method.
+	* It should not throw more broader errors than the parent method.
+
+
+### Overloading
+* Overloading a method is simply a different method which happens to have the same name but different argument sets. It has nothing to do with polymorphism or inheritance.
+* An overloaded method is not the same as the overridden method.
+	* The access modifier can be changed in any direction.
+	* There can be different arguments.
+	* Should not change the return type alone. (Can change both arguments and return type both) The compiler will think you are trying to override it.
+
+### Interfaces and Abstract Classes
+* Some classes **SHOULD** not be instantiated. For eg. from Animal class, Canines -> Dog and Wolf, Hippo and Feline -> Cat, Tiger classes are created.
+* How does an Animal object look like? The truth is we do not need an Animal object ever. So its better we simply declare it as an abstract class or an interface.
+* **If a class is declared abstract, then the compiler will prevent any code from ever instantiating the class.**
+* An abstract class' only purpose is to just simply have children. **It has no use unless it is extended**.
+* **An abstract class has to be extended. And an abstract method must be overridden.**
+* ONLY an abstract class can contain abstract methods. But however, an abstract class can contain a mixture of both non abstract and abstract methods.
+* **You must implement (or override them.. both are the same almost) all abstract methods.**
+* Abstract methods have no body.
+* **An interface is nothing but 100% pure abstract class**.
+* It will only have abstract methods.
+* When will an interface be required? When we need selective functionality in some of the child classes. So at that time, we can just have two parents. One will be an abstract class and the other will be an interface.
+* What does interface really get you???
+	* Polymorphism, Polymorphism and Polymorphism!!!
+	* A class can implement multiple interfaces.
+	* it need not be a part of the inheritance tree.
+	* They are much much more flexible than abstract classes.
+	* If you use interfaces instead of concrete sub classes, then the methods in the interface, can take any class which implement the interface.
+
+
+### When should you use concrete class, abstract class or interface?
+* Make a subclass only when you want to have a more spcific behaviour for a class, with overridden behaviour.
+* Make an abstract class, if you want to have a common template for many subclasses to inherit from. But an instance of the super class would not make sense.
+* Make an interface when you want to define a role that the other classes can play regardless of where they are in the inheritance tree. Or if you want to introduce selective behaviour.
+* [More info](https://stackoverflow.com/questions/479142/when-to-use-an-interface-instead-of-an-abstract-class-and-vice-versa)
+

@@ -106,5 +106,4 @@ as the first line of the child method's implementation.
 * Make a subclass only when you want to have a more spcific behaviour for a class, with overridden behaviour.
 * Make an abstract class, if you want to have a common template for many subclasses to inherit from. But an instance of the super class would not make sense.
 * Make an interface when you want to define a role that the other classes can play regardless of where they are in the inheritance tree. Or if you want to introduce selective behaviour.
-* [More info](https://stackoverflow.com/questions/479142/when-to-use-an-interface-instead-of-an-abstract-class-and-vice-versa)
-
+* [More info](https://stackoverflow.com/questions/479142/when-to-use-an-interface-instead-of-an-abstract-class-and-vice-versa) and [Here](https://www.javaworld.com/article/2077421/learn-java/abstract-classes-vs-interfaces.html)

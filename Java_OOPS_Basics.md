@@ -107,3 +107,23 @@ as the first line of the child method's implementation.
 * Make an abstract class, if you want to have a common template for many subclasses to inherit from. But an instance of the super class would not make sense.
 * Make an interface when you want to define a role that the other classes can play regardless of where they are in the inheritance tree. Or if you want to introduce selective behaviour.
 * [More info](https://stackoverflow.com/questions/479142/when-to-use-an-interface-instead-of-an-abstract-class-and-vice-versa) and [Here](https://www.javaworld.com/article/2077421/learn-java/abstract-classes-vs-interfaces.html)
+
+
+### Constructors - Life and Death of Objects
+* Local variables live on the stack. Instance variables live on the heap.
+* Local variables if they are complex objects, then the object reference variable will be on the stack, but the actual object will still be on heap. And once the stack frame is done executing, it will be GCed.
+* If you don't write a Constructor, the compiler will give a default constrctor for you.
+* Constructors have no return types. Constructors can have access modifiers associated with them though. Public/ private or protected or default (which means no access specifier). If private, then no outer class can instantiate the class.
+* The compiler will provide you a default constructor as long as you don't put any constructors. But when you stick in an arg constructor, then we have to take care of every constructor.
+* If there is a big inheritance chain, then all the constructors in the inheritance chain must be invoked from top most to bottom class. So it is like a constructor chain reaction. Called as **constructor chaining.**
+* So, if the sub class object's constructor does not have a call to super() in its first line, then the compiler does it for us. (Take care, even if there is an arg version of super class constructor, it will ONLY invoke the no-arg one.)
+
+### Other wacky stuff
+* There can be overloaded main methods in a program, no problem. But there absolutely must be one "public static void main(String[] args)"
+* Why is a constructor public static void?
+	* Because, if it is not static, it introduces other contracts which the class must fulfill, including, which constructor to use when creating an instance of the class, what arguments should be passed for the class' constructor, and also ensure the class is not abstract (because abstract classes cannot be instantiated.) etc. It introduces a lot of additional brittle contracts. Which is not good programming. But if it were static, we just have to ensure only one thing. There should be a static main present.
+	* It has to be void. No other go. Compiler asks for the main method to return void. However if we want to return something, we can use System.exit(int) to return some error code after main terminates. But we cannot see it on console without having some shell scipt to read the exit code. (in languages like C, it is a means of indicating the error code upon exit. C/C++ progs can have their main return int values.)
+	* Or if we want some values from main, we can either store them in String[] args.
+	* As to why it is public? No idea.
+* How a java prog runs?
+	* **When you type java.exe <prog_name>, it will use JNI, basically the DLL loads the JVM. JVM is not the java.exe. So the java.exe is a C program which parses the command line, and takes in the arguments passed in, creates a String array and stores them in it, and passes it to the main method of the program. Then it runs. Basically its all convention. So, if we write our own java.exe code, we can make it start from a method called StartFromThis() with arguments of our choice.** **Full credits to this answer [here](https://stackoverflow.com/questions/146576/why-is-the-java-main-method-static)**

@@ -103,7 +103,7 @@ as the first line of the child method's implementation.
 
 
 ### When should you use concrete class, abstract class or interface?
-* Make a subclass only when you want to have a more spcific behaviour for a class, with overridden behaviour.
+* Make a subclass only when you want to have a more specific behaviour for a class, with overridden behaviour.
 * Make an abstract class, if you want to have a common template for many subclasses to inherit from. But an instance of the super class would not make sense.
 * Make an interface when you want to define a role that the other classes can play regardless of where they are in the inheritance tree. Or if you want to introduce selective behaviour.
 * [More info](https://stackoverflow.com/questions/479142/when-to-use-an-interface-instead-of-an-abstract-class-and-vice-versa) and [Here](https://www.javaworld.com/article/2077421/learn-java/abstract-classes-vs-interfaces.html)
@@ -112,11 +112,66 @@ as the first line of the child method's implementation.
 ### Constructors - Life and Death of Objects
 * Local variables live on the stack. Instance variables live on the heap.
 * Local variables if they are complex objects, then the object reference variable will be on the stack, but the actual object will still be on heap. And once the stack frame is done executing, it will be GCed.
-* If you don't write a Constructor, the compiler will give a default constrctor for you.
+* If you don't write a Constructor, the compiler will give a default constructor for you.
 * Constructors have no return types. Constructors can have access modifiers associated with them though. Public/ private or protected or default (which means no access specifier). If private, then no outer class can instantiate the class.
 * The compiler will provide you a default constructor as long as you don't put any constructors. But when you stick in an arg constructor, then we have to take care of every constructor.
 * If there is a big inheritance chain, then all the constructors in the inheritance chain must be invoked from top most to bottom class. So it is like a constructor chain reaction. Called as **constructor chaining.**
 * So, if the sub class object's constructor does not have a call to super() in its first line, then the compiler does it for us. (Take care, even if there is an arg version of super class constructor, it will ONLY invoke the no-arg one.)
+* But we can make a change to the super call, so that it accepts arguments, no problem at all.
+* A constructor's first call can be to either **this()** or **super()**, but not both. (So, ultimately the constructor which is invoked using this() may have the call to super())
+* this() -> Used when we have another constructor which may have the bulk of the initialization code inside it.
+* **this() CAN ONLY BE USED INSIDE A CONSTRUCTOR. Never outside it.** 
+* So, the general rule is, the parents come before the children. No way that can be circumvented. Its just plain wrong.
+
+
+
+### Exceptions and their handling
+* Checked Exceptions must be declared (using the throws keyword) or caught. 
+	* Now the question comes, why not make all exceptions as checked.
+	* Ans. Because they are runtime exceptions. The compiler does not care about this. We cannot guarantee that the file will be present at the location/ or the server will be up. But, we can most certainly not exceed the array's length, or check if the character is numeric before parsing it.
+	* So, runtime exceptions can be prevented, and are most certainly due to the logic while programming.
+* A try-catch is for handling exceptional scenarios and not for handling flaws in the programs.
+* An exception is always of the type object -> **Exception**.
+* Compiler only cares about the checked exceptions and not the run time exceptions.
+* Usual blocks are 
+```
+try{
+	//risky code goes here
+}
+catch(Exception x){
+	//handling and recovering if possible
+	//or simply collect debug info and exit
+}
+finally(){
+	//for any cleanup code
+}
+```
+* Finally block always executes **except in cases where, the JVM exits. OR if the thread executing the try or catch block is interrupted or killed.e**
+* eg.
+```
+//bye does not get printed
+ try {
+    		        System.out.println("hello");
+    		        System.exit(0);
+    		    }
+    		    finally {
+    		        System.out.println("bye");
+    		    } 
+```
+* Exceptions are polymorphic in nature. Its the place where polymorphism is exercised to its max.
+* One can use the super class Exception to catch all the exceptions Just because, we can do that doesn't mean we should. Ideally we should write the catch blocks in increasing order of scope and catch. They should be ordered small to large.
+* You can simply duck when an exception arrives, and simply avoid it. Let the method calling you handle it. (There will always be a method calling you. Worst case, it will be main()).
+* So, if your method, declares an exception, then the method calling you must handle the exception. And when an exception occurs, the stack frame just gets popped off. and exception is passed to the calling method.
+* **HANDLE OR DECLARE.** 
+
+
+
+### Inner Classes
+* They are used a lot in event handling. Responding to certain events.
+* They just make a lot of sense in GUI event handling.
+* [Here too](https://stackoverflow.com/questions/18396016/when-to-use-inner-classes-in-java-for-helper-classes)
+* Basically we need multiple implementations of the same method while handling GUI events.
+
 
 ### Other wacky stuff
 * There can be overloaded main methods in a program, no problem. But there absolutely must be one "public static void main(String[] args)"

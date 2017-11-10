@@ -182,3 +182,11 @@ finally(){
 	* As to why it is public? No idea.
 * How a java prog runs?
 	* **When you type java.exe <prog_name>, it will use JNI, basically the DLL loads the JVM. JVM is not the java.exe. So the java.exe is a C program which parses the command line, and takes in the arguments passed in, creates a String array and stores them in it, and passes it to the main method of the program. Then it runs. Basically its all convention. So, if we write our own java.exe code, we can make it start from a method called StartFromThis() with arguments of our choice.** **Full credits to this answer [here](https://stackoverflow.com/questions/146576/why-is-the-java-main-method-static)**
+
+
+
+### Important Java predicting output questions and explanations
+* [instanceof](https://stackoverflow.com/questions/7526817/use-of-instance-of-in-java) [this too](http://www.geeksforgeeks.org/java-instanceof-and-its-applications/)
+* [radix](https://stackoverflow.com/questions/35521278/printing-an-integer-in-java-that-have-zero-in-front-of-it) [radix_more](https://stackoverflow.com/questions/37532421/how-can-i-put-my-my-binary-octal-and-hexadecimal-in-one-loop)
+* [static methods overriding](https://stackoverflow.com/questions/2223386/why-doesnt-java-allow-overriding-of-static-methods)
+

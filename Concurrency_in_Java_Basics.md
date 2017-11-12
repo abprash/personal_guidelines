@@ -1,5 +1,5 @@
 # Concurrency in Java - Basics
-##[Credits](https://docs.oracle.com/javase/tutorial/essential/concurrency)
+## [Credits](https://docs.oracle.com/javase/tutorial/essential/concurrency)
 
 * Concurrency is even possible in systems without multiple cores.
 * [Look at this](https://stackoverflow.com/questions/17669159/what-is-the-relation-between-the-main-method-and-main-thread-in-java)
@@ -103,3 +103,109 @@ public class SomeThread extends Thread{
 	}
 }
 ```
+* Thread.interrupt() method sets the flag, and Thread.interrupted() will clear it.
+
+
+## Join
+* Join is used when we need to wait for another thread to finish execution. Only after that thread finishes execution, will join() return, and then the main thread will continue execution.
+* [See this](https://stackoverflow.com/questions/18479771/java-multithreading-concept-and-join-method)
+
+```
+public static void main(String[] args){
+	//
+	//
+	//
+ 	thread_name.join();
+ 	//some more
+}
+```
+* main() will actually halt at join(). Until thread_name finishes execution, and only then, will main continue with "some more".
+
+
+## Thread - Gotchas
+* thread_name.start() (a class which extends Thread) actually starts a new method. But, thread_name.run() (a class which implements Runnable)
+* start() actually creates a new thread and starts it. But, run() behaves like a method call.
+* [Look at this](https://stackoverflow.com/questions/8579657/whats-the-difference-between-thread-start-and-runnable-run)
+* [Difference between extending Thread and impl Runnable](https://stackoverflow.com/questions/541487/implements-runnable-vs-extends-thread)
+* [Runnable vs Thread](http://javarevisited.blogspot.com/2012/01/difference-thread-vs-runnable-interface.html)
+* Take care to never call the class's constructor, within the class definition. Because it would result in a stack overflow exception, because it just keeps getting called.
+eg.
+```
+public class Sad{
+	String a ;
+	int b ;
+	Sad sadFellow = new Sad(); //line 4 //will cause SO exception
+	static Sad oneSadFellow = new Sad(); //will **NOT CAUSE** the SO exception
+
+	public Sad(){
+		//init the obj
+		//**TAKE CARE NOT TO INVOKE THE constructor here again inside as well**
+		//that is
+		// DO not invoke Sad() inside the constructor.
+		//this is plain stupid
+	}
+
+	public static void main(String [] args){
+		
+		Sad s = new Sad(); //this line will cause the StackOverflow exception.
+		//because it will load Sad class again, where it will be again invoking Sad again and again, which is on line 4
+		//thats it .. we are done
+
+	}
+}
+```
+* [A very overflowing error](https://stackoverflow.com/questions/9126122/stackoverflow-error-when-creating-object-outside-the-main-method), [Also this](https://stackoverflow.com/questions/38966213/why-do-i-get-infinite-loopstackoverflow-error-while-creating-an-object-in-a-cl)
+* The following code shows peculiar behavior,
+```
+Integer a = 128, b=128;
+System.out.println(a == b); // will print false
+
+
+Integer c = 100,  d = 100;
+System.out.println(c == d); // will print true
+//WHY!!!!??
+//because it will work well from -128 to 127. Beyond that, we have to use equals to get the correct comparison.
+
+```
+[Look at this](https://stackoverflow.com/questions/29139274/how-equal-operator-works-with-primitive-and-object-type-data), [also](https://stackoverflow.com/questions/26742042/how-operator-compare-references-mean-internal-working-of-operator)
+
+* **Explanation for the above code** Integer caches values between -128 to 127. So when we do, the first declaration, they are cached. But, beyond that they are not cached.
+```
+Integer a = new Integer(12), b=new Integer(12);
+System.out.println(a == b); // will print false
+```
+[Credits](https://stackoverflow.com/questions/8427416/why-is-true-for-some-integer-objects)
+
+* We can invoke the Java GC by the statement,
+` System.gc();`
+
+* When the Garbage collector is called, the corresponding class' finalize method is invoked upon it to clear up. But when we just simply orphan some other class' object, it will never be invoked. eg.
+```
+public class GC_demo {
+	
+	public static void main(String[] args) throws InterruptedException{
+		GC_demo obj = new GC_demo();
+		String s = new String();
+		obj = null; // if this line is commented, finalize won't be invoked.
+		//if its NOT commented, then the overridden finalize will be invoked, just before the GC destroys the obj.
+
+		s = null;
+		//or the GC can also be invoked by Runtime.runtime.gc();
+		System.gc();
+		Thread.sleep(1000);
+		//if the above thhread sleep line is commented, then both threads (GC and current main thread) will carry on executing.
+		System.out.println("main ends here");
+	}
+	
+	@Override
+	public void finalize(){
+		System.out.println("finalize called");
+		//if there are any exception causing code here, then the JVM will **ignore** it.
+		//WHY??
+		//because, at this stage, who really cares whether there is any exception when clearing up stuff. You just destroy everything.
+		
+	}
+
+}
+```
+* GC can also run in the background after main returns. 

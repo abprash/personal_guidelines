@@ -208,4 +208,26 @@ public class GC_demo {
 
 }
 ```
-* GC can also run in the background after main returns. 
+* GC can also run in the background after main returns.
+* GC will be called on the obj reference as many times as needed. If we initialize an obj ref variable to a to 100 different objects, then the first 99 objects will be orphaned for the GC to collect them. 
+* You can call a static method with a null instance (when the instance is NULL), but if you try with a non static method, it will throw a run time NullPointerException. (Because, the JVM will look at the class name, and directly invoke the static method.)
+* A method can have **varying** arguments (var args also called variadic functions) if we denote it with 3 dots.
+```
+public int getData(int... value)
+    {
+    	//System.out.println(value.length);
+        //****
+        //Always treat "value" as an array
+        return  (data+2);
+    }
+
+//can be invoked as
+System.out.println(temp.getData(7,2));
+System.out.println(temp.getData(new int[]{7,8,9}));
+System.out.println(temp.getData(new int[]{7,8,9}));
+
+```
+* A nested (or inner) static class cannot access instance variables. It can access only static variables.
+* The class name of the file and the class name containing the main method should be the same. Else the JVM will complain that there is no main methood while **RUNNING.**
+* Calling thread's run() is simply like a method call, whereas, **start() is starting a new thread whose entry point is contents of method run()**.
+* Constructors cannot be enclosed in a try-catch block. It will be a compilation error.

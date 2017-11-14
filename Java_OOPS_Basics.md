@@ -41,6 +41,39 @@ public void setHeight(int h){
 
 
 ### Inheritance and Polymorphism
+* **Remember that inheritance is used to change behavior. So methods represent behavior and instance variables represent state.**
+* You can hide a field, but **not override** it.
+* **It is extremely bad practice to hide fields, but the example shows it.**
+```
+public class HideField {
+
+    public static class A
+    {   
+        String name = "a";
+
+        public void doIt1() { System.out.println( name ); };
+        public void doIt2() { System.out.println( name ); };   
+    }
+
+    public static class B extends A
+    {
+        String name = "b";
+
+        public void doIt2() { System.out.println( name ); };
+    }
+
+    public static void main(String[] args)
+    {
+        A a = new A();
+        B b = new B();
+
+        a.doIt1(); // print a
+        b.doIt1(); // print a
+        a.doIt2(); // print a
+        b.doIt2(); // print b <-- B.name hides A.name
+    }
+}
+```
 * IS-A and HAS-A relationship. If there is an IS-A relationship, then it is ok to have an inheritance. Or else, if there is a HAS-A relationship, then we are better off using it as an instance variable instead of a separate class.
 * eg.
 ```
@@ -65,7 +98,7 @@ as the first line of the child method's implementation.
 * Why are methods or classes declared final? It is because that marks the end of the inheritance tree. We cannot subclass it further. That is why most methods in the Java lang are marked final.
 * Private instance variables and private methods are not inherited.
 * final classes are not inherited. Non public classes cannot be inherited outside the package.
-
+* 
 
 ### Overriding
 * When you override a parent's method, you are agreeing to the contract.
@@ -73,6 +106,7 @@ as the first line of the child method's implementation.
 	* The parent method's same arguments must be used. Because, from the point of the compiler, it will only be able to see the reference method and not the actual object's methods even though it may be a valid overload.
 	* It should not be less restrictive than the parent method.
 	* It should not throw more broader errors than the parent method.
+* The child's return types can vary from the parent's method only if they are in an inheritance tree, and the return type is a sub type of the parent method's return type. This is called **covariant return type.**
 
 
 ### Overloading
@@ -100,6 +134,7 @@ as the first line of the child method's implementation.
 	* it need not be a part of the inheritance tree.
 	* They are much much more flexible than abstract classes.
 	* If you use interfaces instead of concrete sub classes, then the methods in the interface, can take any class which implement the interface.
+* The access specifiers allowed for an interface are only abstract and public.
 
 
 ### When should you use concrete class, abstract class or interface?
@@ -122,7 +157,12 @@ as the first line of the child method's implementation.
 * this() -> Used when we have another constructor which may have the bulk of the initialization code inside it.
 * **this() CAN ONLY BE USED INSIDE A CONSTRUCTOR. Never outside it.** 
 * So, the general rule is, the parents come before the children. No way that can be circumvented. Its just plain wrong.
-
+* There are 4 ways of creating objects. 
+    * Using new, 
+    * using Class.forName("Class_Name").newInstance();
+    * Using clone()
+    * Deserialization
+    * For more look here [This](https://stackoverflow.com/questions/95419/what-are-all-the-different-ways-to-create-an-object-in-java) 
 
 
 ### Exceptions and their handling
@@ -182,11 +222,117 @@ finally(){
 	* As to why it is public? No idea.
 * How a java prog runs?
 	* **When you type java.exe <prog_name>, it will use JNI, basically the DLL loads the JVM. JVM is not the java.exe. So the java.exe is a C program which parses the command line, and takes in the arguments passed in, creates a String array and stores them in it, and passes it to the main method of the program. Then it runs. Basically its all convention. So, if we write our own java.exe code, we can make it start from a method called StartFromThis() with arguments of our choice.** **Full credits to this answer [here](https://stackoverflow.com/questions/146576/why-is-the-java-main-method-static)**
+* There can be different blocks in a Java program. Always remember the order in which they are executed....
+	1. Static blocks in the order they are written
+	2. Instance blocks in the order they are written
+	3. at last main() method is invoked
+```
+public class Boot 
+{
+    static String s;
+    
 
+    //static block below
+    static
+    {
+        s = "";
+    }
+    
+
+    //instance block below.... will get called after static blocks are done
+    {
+        System.out.println("GeeksforGeeks ");
+    }
+    
+
+    //another static block
+    static
+    {
+        System.out.println(s.concat("practice.GeeksforGeeks "));
+    } 
+    
+    //normal method ... do not worry
+    Boot() 
+    { 
+        System.out.println(s.concat("Quiz.GeeksforGeeks"));
+    }
+
+    //after static, instance blocks, finally this executes.
+    public static void main(String[] args) 
+    {
+        new Boot();
+        System.out.println("Videos.GeeksforGeeks");
+    }
+}
+```
+* Static blocks are run only once. Initializer (or instance) blocks are run every time before the constructor.
+* 
 
 
 ### Important Java predicting output questions and explanations
 * [instanceof](https://stackoverflow.com/questions/7526817/use-of-instance-of-in-java) [this too](http://www.geeksforgeeks.org/java-instanceof-and-its-applications/)
 * [radix](https://stackoverflow.com/questions/35521278/printing-an-integer-in-java-that-have-zero-in-front-of-it) [radix_more](https://stackoverflow.com/questions/37532421/how-can-i-put-my-my-binary-octal-and-hexadecimal-in-one-loop)
 * [static methods overriding](https://stackoverflow.com/questions/2223386/why-doesnt-java-allow-overriding-of-static-methods)
+* **Any variable declared in the static block is block local. END of STORY**. Example below
+```
+public class Test1 {
+    int x = 10;
+    
+public
+    static void main(String[] args)
+    {
+        System.out.println(new Test1().x);
+        //System.out.println(Test1.x); *********This will cause a compilation error because, x variable in the static block is local to that block alone. It is not visible to the entire class. So, yes. Compilation error.
+    }
+    static
+    {
+    	//x here is local to this block. it is not static for the whole class
+    	int x = 20;
 
+        System.out.print(x + " ");
+    }
+}
+```
+* **When we implement an interface, it is necessary that all methods be public.**
+* **If there is a return statement in the try block, and there is a catch-finally block, the finally block still executes.**
+* **Java allows constructor and a method to have the same name.**[here](https://stackoverflow.com/questions/3401444/methods-with-same-name-as-constructor-why)
+```
+class Example {
+private int x;
+public static void main(String args[])
+    {
+        Example obj = new Example();
+    }
+public void Example(int x)
+    {
+        System.out.println(x);
+    }
+}
+```
+* Aggregation and Composition - [this](https://stackoverflow.com/questions/734891/aggregation-versus-composition)
+* Difference between ArrayList and Vector. [this](https://stackoverflow.com/questions/2986296/what-are-the-differences-between-arraylist-and-vector)
+    * Primary differences are
+        * Vectors say that they are thread safe, BUT its flawed. So not advisable to use them. 
+        * Slow. Even get(), set() methods are synch.
+        * Arraylists grow by 50%, when capacity exceeded, whereas vectors simply double their capacity.
+* Jagged arrays are possible in Java.
+```
+int[][] j = new int[10][];
+j[0] = new int[10];
+j[1] = new int[100];
+j[2] = new int[5];
+
+```
+* Sorting
+```
+Collections.sort(list_name);
+Collections.sort(list_name, Collections.reverseOrder());
+```
+
+### Other data structures and collections
+* TreeSet will sort the elements when adding in ascending order, and eliminate duplicates. (because, set.)
+
+
+### Best practices in software designing
+* **SOLID**
+* [I](https://stackoverflow.com/questions/9249832/interface-segregation-principle-program-to-an-interface)

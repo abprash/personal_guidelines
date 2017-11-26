@@ -313,7 +313,7 @@ public void Example(int x)
 * Difference between ArrayList and Vector. [this](https://stackoverflow.com/questions/2986296/what-are-the-differences-between-arraylist-and-vector)
     * Primary differences are
         * Vectors say that they are thread safe, BUT its flawed. So not advisable to use them. 
-        * Slow. Even get(), set() methods are synch.
+        * Slow. Even get(), set() methods are synch.d
         * Arraylists grow by 50%, when capacity exceeded, whereas vectors simply double their capacity.
 * Jagged arrays are possible in Java.
 ```

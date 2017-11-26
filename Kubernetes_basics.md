@@ -19,3 +19,11 @@
 * `kubectl version` - after going into the VM, we can use this command to see the Kube version on both client and server. Client here being the worker VM and server being the master VM.
 * `kubectl get nodes` - we will be seeing that the node is ready to accept applications for deployment.
 
+
+### Kubernetes Deployments
+* Once we have a running cluster, we can then deploy containerized applications on top of it. 
+* The "how" (ie how it deploys) part is taken care by the deployment configuration.
+* The deployment instructor instructs Kubernetes on how to create and update instances in the cluster.
+* Kubernetes Deployment Controller maintains the health of all nodes in the cluster and heals the cluster when one or more nodes go down.
+* The applications need to be packaged into one of the supporting formats for Kubernetes to pick it up and deploy on its cluster.
+* 

@@ -26,4 +26,27 @@
 * The deployment instructor instructs Kubernetes on how to create and update instances in the cluster.
 * Kubernetes Deployment Controller maintains the health of all nodes in the cluster and heals the cluster when one or more nodes go down.
 * The applications need to be packaged into one of the supporting formats for Kubernetes to pick it up and deploy on its cluster.
+
+### Kube deployment demo
+* Can be done [here](https://kubernetes.io/docs/tutorials/kubernetes-basics/deploy-interactive/)
+* `kubectl run <deployment-name> --image=<docker image name or URL> --port=<port-number>`
+* To list the deployments - `kubectl get deployments`.
+* `kubectl proxy` - used for connecting with a node.
+* `kubectl get pods` - will give all the available pod names
+* `kubectl describe pods` - will give the pods details. They are more human readable rather than scripted against.
+
+### Kubernetes Pods and Nodes
+* Once we created the deployment, Kubernetes created a pod to host the application.
+* Pods are the atomic unit in Kubernetes. In contrast to the conventional physical system lingo.
+* Pods run on one node. A node however can have multiple pods also, depending on the application cluster's needs.
+* Each node consists of a
+	* Kubelet - a process responsible for communicating with the cluster master.
+	* A container application like Docker or rkt to manage the downloading, unpacking, of containers.
+* Pods run in a private network. So, if we need to access them, we need a proxy.
+
+
+### Exposing the App
+* Done via services
+
+### Scaling up the App
 * 

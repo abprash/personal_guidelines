@@ -1,4 +1,4 @@
-#Hadoop MapReduce Basics
+# Hadoop MapReduce Basics
 ## Credits - Udacity - [Intro to Hadoop and MapReduce](https://classroom.udacity.com/courses/ud617).
 * 3Vs of big data - Variety, velocity and Volume
 * Files are stored in something called HDFS.
@@ -34,10 +34,14 @@
 
 [input]: input_for_hdfs.png "How the input data looks for the Hadoop job"
 
+----
+
 2. The mappers step
 ![Mappers step][mapper]
 
 [mapper]: hadoop_mappers.png "How the mapper step looks like"
+
+---
 
 3. The final reducer step
 ![How the Reducer step looks like][reducer]

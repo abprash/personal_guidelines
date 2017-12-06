@@ -1,4 +1,5 @@
 #Hadoop MapReduce Basics
+## Credits - Udacity - [Intro to Hadoop and MapReduce](https://classroom.udacity.com/courses/ud617).
 * 3Vs of big data - Variety, velocity and Volume
 * Files are stored in something called HDFS.
 * A hadoop mapreduce cluster will be having two different kinds of nodes -
@@ -39,7 +40,7 @@
 [mapper]: hadoop_mappers.png "How the mapper step looks like"
 
 3. The final reducer step
-![How the Reducer step looks like][input]
+![How the Reducer step looks like][reducer]
 
 [reducer]: hadoop_mappers_reducers.png "How the Reducer step looks like"
 

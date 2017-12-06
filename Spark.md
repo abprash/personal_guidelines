@@ -10,6 +10,9 @@
 * Action -> It is something like a direct answer which the system will provide you. eg. count.
 * Spark also does lazy evaluation, they are not loaded into the memory until the required action is to be done.
 * Data Sources - It can read data from multiple sources - Local file system, S3, HDFS, HBase.
+* Spark also allows you to set the caching scale. You can cache max - for maximum speeds but at the cost of more RAM, or even operate at cache min - for much reduced speeds, but with lesser RAM space.
+* RDDs are in fact (Distributed Acyclic Graphs) DAGs internally. DAGs help in fault tolerance, so that when an RDD is gone due to a node/ general failure, Spark can recompute it. Hence the Resilience.
+
 
 ## Example of how it works..
 1. Simple operations to create Spark environment objects. Or, creation of RDDs. 

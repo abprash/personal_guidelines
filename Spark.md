@@ -4,11 +4,12 @@
 * General purpose compute engine - which allows batch, streaming and real time jobs on the cluster.
 * Spark is written in Scala.
 * It does not force you to chunk up your job into different parts. You can directly put the entire workload into memory and Spark will take care of it.
+* Has a much better API than Hadoop.
 * RDDs -> Resilient Distributed Datasets. These are understood easily like the objects in the Spark environment. They are resilient because they use lineage, which can compute themselves using prior information and retrieve the lost correct value before failure.
 * Transformations -> What operations you do on RDDs in order to get other results. These include things like, opening a file and reading them into an RDD, or filtering an RDD on some criteria etc.
 * Action -> It is something like a direct answer which the system will provide you. eg. count.
 * Spark also does lazy evaluation, they are not loaded into the memory until the required action is to be done.
-
+* Data Sources - It can read data from multiple sources - Local file system, S3, HDFS, HBase.
 
 ## Example of how it works..
 1. Simple operations to create Spark environment objects. Or, creation of RDDs. 

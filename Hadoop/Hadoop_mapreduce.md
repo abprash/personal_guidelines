@@ -83,7 +83,6 @@
 		* Filters
 			* Simple filters
 			* Bloom filters - These are probabilitic more efficient filters
-		
 	* Structural patterns
 		* Combining data sets
 

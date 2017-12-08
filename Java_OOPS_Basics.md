@@ -336,3 +336,67 @@ Collections.sort(list_name, Collections.reverseOrder());
 ### Best practices in software designing
 * **SOLID**
 * [I](https://stackoverflow.com/questions/9249832/interface-segregation-principle-program-to-an-interface)
+
+
+
+### Runtime
+* Every Java application has a single instance of the Runtime, which is used to interface the application with the run time environment.
+* The run time instance can be obtained with the getRuntime() method.
+* An appln. cannot create an own instance of this class.
+* A java appln. will shutdown in response to two different kinds of events
+    * When the program itself terminates normally, / or last non daemon thread returns/ or when System.exit() is invoked
+    * When the program, is killed because the system is being shutdown/logged off./ or Ctrl + C is invoked.
+* We can actually start a new separate process in Java, using exec(). An example is as shown.
+```
+public static void main(String[] args){
+    Process process = Runtime.getRuntime().exec("google-chrome");
+    System.out.println("Chrome started successfully, but this main thread will exit.");
+    //chrome will be started as a separate process
+}
+```
+* We can get lots of cool nifty stuff from the Runtime object, using its super helpful methods like 
+```
+Runtime.getRuntime().freeMemory(); // -> will give JVM's avail free mem
+Runtime.getRuntime().totalMemory();
+Runtime.getRuntime().availableProcessors();
+Runtime.getRuntime().traceInstructions(false); // will give trace instructions as and when each instruction runs. It is highly system dependent. can be toggled
+Runtime.getRuntime().gc(); // will run the GC for us
+
+```
+
+
+### Difference between exit() and halt() method in Java
+* System.exit() is used by the VM when it wants to exit in a normal orderly manner. It will call all its shutdown hooks first, then it will call its finalizers, if finalization on exit is enabled and then halt.
+* Runtime.getRuntime().halt() will forcibly quit the VM. None of the shutdown hooks will even run. It always returns abnormally.
+* exit() may not always exit the program, but halt will always do.
+
+
+
+### Shutdown hook in java
+* It is typically executed right after the last line in the program runs.
+* There can be multiple shutdown hooks as well, but we cannot guarantee the order, as they are separate threads typically.
+* So, when a program terminates, this happens, the VM begins its shutdown sequence,  where it will start all its registered shutdown hooks, in some unspecified order - but they are all executed concurrently. 
+* After all the hooks have been finished, VM will then invoke uninvoked finalizers (finalizers are nothing but the finalize methods) if finalization-on-exit has been enabled.
+* And then the VM halts.
+* Generally an OOP language will have either finalizers or destructors. Occasionally there are some languages like C++ which has both. Both almost do the same job. Finalize methods are called upon by the GC, whereas the destructors are deterministic and called by the programmers.
+
+
+* Eg.
+```
+public class ShutdownhookDemo{
+    public static void main(String[] args){
+        //adding a thread hook to the runtime
+        Runtime.getRuntime().addShutdownHook(new Thread(){
+            public void run(){
+                //lets run it
+                System.out.println("inside the hook");
+            }
+        });
+
+
+
+        //print something
+        System.out.println("last line");
+    }
+}
+```

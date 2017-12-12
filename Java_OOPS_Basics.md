@@ -1,5 +1,12 @@
 ## Java OOPS - Basics
 
+
+### JRE and JDK
+* JRE is the run time environment used by Java. In other words, if you are going to be running Java programs on your machine, you will want this. JRE includes the runtime environment ie. the JVM and the other associated libraries.
+* JDK - On the other hand, if you are going to be developing Java applications, you do need the entire Java Development Kit, which encompasses everything ie the (JRE and the associated libraries). JDK contains the main part i.e the javac, the compiler.
+* See [this](https://stackoverflow.com/questions/1906445/what-is-the-difference-between-jdk-and-jre) for more info.
+
+
 ### Encapsulation
 * We cannot have our instance variables exposed to just plain changes. We should protect it.
 * Eg. we have a cat object with an instance variable is height, what is to prevent someone from changing that height to 0. So we have to protect it using **gtters and setters**.
@@ -327,7 +334,70 @@ j[2] = new int[5];
 ```
 Collections.sort(list_name);
 Collections.sort(list_name, Collections.reverseOrder());
+
 ```
+
+* Do we really need the public static void main() for a program to run?? Ans - Yes, we do. Prior to Java 5, we did not need them, but we need them now. Note that however, content in static block executes prior to main() method.
+* THere are two blocks static blocks and instance blocks. Static blocks get called only once - when the class is loaded, before the main method's invocation. But, instance blocks run, upon the creation of each instance. Every time an instance of that class is created, the instance block gets invoked.
+* What about multiple static and instance blocks? or Nested static and instance blocks?? Ans - If you think about it, nested static blocks do not make sense - as static blocks belong to the class, and they should be in the class level and no deeper. However, a class can have multiple instance blocks and static blocks. They will be invoked in the order they have been written in the program. There can be nested instance blocks as well. There can be plain nested blocks inside the static block as well, but there **should NOT be nested static blocks**.
+```
+class Test2 
+{
+    // static block
+    static
+    {
+        System.out.println("Hello from static block 1 ");
+    }
+    static
+    {
+        System.out.println("Hello from s block 2");
+    }
+    static
+    {
+        System.out.println("Hello from s block 3");
+    }
+    {
+        System.out.println("Hello from instance block 1");
+    }
+    {
+        System.out.println("Hello from instance block 2");
+    }
+    {
+        System.out.println("Hello from instance block 3");
+    }
+     public static void main(String[] args){
+        System.out.println("Hello from main");
+        Test2 t = new Test2();
+        Test2 t1 = new Test2();
+    }
+}
+
+//OP
+
+Hello from static block 1 
+Hello from s block 2
+Hello from s block 3
+Hello from main
+Hello from instance block 1
+Hello from instance block 2
+Hello from instance block 3
+Hello from instance block 1
+Hello from instance block 2
+Hello from instance block 3
+
+```
+* The class name and the file name ** should absolutely be the same.** They must match. However, if you use `javac Filename.java` and run it, with a different class name inside (say Trial), that particular class name would be generated. Then we can do `java Trial` to run the class file.
+* For the following program, there will be no compilation errors, but it will fail in runtime.
+```
+public class String
+{
+    public static void main (String[] args)
+    {
+        System.out.println("I got confused");
+    }
+}
+```
+- JVM will complain that, it did not find method main() in the String class. Also, since String is an inbuilt class of Java. Because, the JVM was expecting a main method, with java.lang.String[] args, but it got a user defined class with user defined String[] argument.
 
 ### Other data structures and collections
 * TreeSet will sort the elements when adding in ascending order, and eliminate duplicates. (because, set.)

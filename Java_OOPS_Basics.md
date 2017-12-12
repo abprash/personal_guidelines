@@ -191,12 +191,26 @@ as the first line of the child method's implementation.
 * **this() CAN ONLY BE USED INSIDE A CONSTRUCTOR. Never outside it.** 
 * So, the general rule is, the parents come before the children. No way that can be circumvented. Its just plain wrong.
 * There are 4 ways of creating objects. 
-    * Using new, 
-    * using Class.forName("Class_Name").newInstance();
-    * Using clone()
-    * Deserialization
-    * For more look here [This](https://stackoverflow.com/questions/95419/what-are-all-the-different-ways-to-create-an-object-in-java) 
-
+    * Using new,  -> ` Test t = new Test();`
+    * using Class.forName("FUlly qualified Class_Name").newInstance(); -> `eg. Test t = (Test) Class.forName("com.pack.Test").newInstance();`
+    * Using clone() -> ` Test t2 = (Test) t1.clone();`
+    * Deserialization -> 
+    ```
+    FileInputStream file = new FileInputStream(filename);
+    ObjectInputStream in = new ObjectInputStream(file);
+    Object obj = in.readObject();
+    ```
+    * For more look here [This](https://stackoverflow.com/questions/95419/what-are-all-the-different-ways-to-create-an-object-in-java) and [this](http://www.geeksforgeeks.org/classes-objects-java/)
+* There are also anonymous objects - where a new instance is created, but it is not assigned to any object reference variable. It will be GC'ed as soon as its work is done. eg.
+```
+btn.setOnAction(new EventHandler()
+{
+    public void handle(ActionEvent event)
+    {
+        System.out.println("Hello World!");
+    }
+});
+```
 
 ### Exceptions and their handling
 * Checked Exceptions must be declared (using the throws keyword) or caught. 
@@ -436,6 +450,54 @@ public class String
 
 ```
 - JVM will complain that, it did not find method main() in the String class. Also, since String is an inbuilt class of Java. Because, the JVM was expecting a main method, with java.lang.String[] args, but it got a user defined class with user defined String[] argument. Because, the order in which JVM will search for the class is the current package first, then the classpath. But if we replace the String in the main args with java.lang.String, it will run perfectly.
+* Widening primitives -> This is used to convert chars into ints when used with operators like +/-. Java automatically promotes any byte/ short/ char to int when evaluating any arithmetic expression. 
+* In an expression, if there is even one long/double the whole expression will get promoted to that.
+* A bit more on ClassCastException and when it is thrown. It is thrown when an object is casted to something which is not its superclass. eg.
+```
+class A{}
+class B extends A{}
+class C extends A{}
+// You can cast any object to Object, because every class inherits from Object.
+// You can cast any B/C object to A, because, it is a type of A.
+// You can use A's reference to point to a B/C object.
+// You cannot type cast an actual B object into C or vice versa even though they are A's.
+// You can cast A's reference to B ONLY IF the actual object is a B.
+```
+* We can also use underscores to improve readability of numbers. They are like the equivalent of commas used to separate nos. This was from JDK7.
+* 
+
+### Interesting stuff about null in Java
+* null is case sensitive. null, Null and NULL are different.
+* We can invoke static methods even though the actual object is null. This is because, the compiler will see that its a static method, and will invoke using the class' name instead of the object. But, it will throw a runtime null pointer exception if we attempt to invoke an instance method using a null object reference.
+* Any reference variable will have the default value to be null.
+* We can type case null to any object type.
+* When we use the instance of operator, even though it may be an instance, if the object is null, it will return false.
+```
+Integer a = 2;
+Integer b = null;
+System.out.println(a instanceof Integer);
+System.out.println(b instanceof Integer);
+
+//OP 
+//true
+//false
+```
+* break anc continue: - This snippet explains it beautifully.
+```
+outer:                   //should be placed exactly before the loop
+loopingConstructOne  {   //we can have statements before the outer but not inbetween the label and the loop          
+    inner:
+    loopingConstructTwo {
+        continue;       //goes to the top of loopingConstructTwo and continue
+        break;          //breaks out of loopingConstructTwo
+        continue outer; //goes to the outer label and reenters loopingConstructOne
+        break outer;    //breaks out of the loopingConstructOne
+        continue inner; //this will behave similar to continue
+    }
+}
+```
+* goto in Java is a reserved keyword, but it is not used. I think it is for future support in case they were to add in the future. If it is not used then why is it marked as a reserved keyword? Because, if it were added in the future, then codebases which have used goto as an identifier name will break and will probably be a messy affair albeit fixable. But yeah, to prevent things from breaking in the future. [here](https://stackoverflow.com/questions/2545103/is-there-a-goto-statement-in-java)
+* 
 
 
 ### Other data structures and collections

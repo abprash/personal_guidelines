@@ -7,6 +7,32 @@
 * See [this](https://stackoverflow.com/questions/1906445/what-is-the-difference-between-jdk-and-jre) for more info.
 
 
+### Basic data types and their ranges
+* boolean - true, false
+* char - 1 Byte 
+* byte - 1 byte - range = -128 to 127
+* short - -2^15 to 2^15 - 1
+* int - (-2^31) to (2^31 - 1)
+* long - -2^63 to 2^63 - 1
+* float -  
+* double - 
+* For bigger numbers, it is better to use BigDecimal classes.
+* Enumerations can serve a purpose of representing a group of constants belonging to a set/group in a programming language. You can think of them like constants.
+eg. Notice that there is no class keyword. This declaration should not be inside a method, but can be in a class or outside it.
+
+```
+enum Color
+{
+    RED, GREEN, BLUE;
+} 
+///or 
+enum Card{
+    SPADE, CLUB, HEART, DIAMOND 
+}
+```
+* Every enum constant is always implicitly **public static final**. Since it is static, we can access it by using enum Name. Since it is final, we can’t create child enums.
+
+
 ### Encapsulation
 * We cannot have our instance variables exposed to just plain changes. We should protect it.
 * Eg. we have a cat object with an instance variable is height, what is to prevent someone from changing that height to 0. So we have to protect it using **gtters and setters**.
@@ -389,6 +415,7 @@ Hello from instance block 3
 * The class name and the file name ** should absolutely be the same.** They must match. However, if you use `javac Filename.java` and run it, with a different class name inside (say Trial), that particular class name would be generated. Then we can do `java Trial` to run the class file.
 * For the following program, there will be no compilation errors, but it will fail in runtime.
 ```
+//Runtime error
 public class String
 {
     public static void main (String[] args)
@@ -396,8 +423,20 @@ public class String
         System.out.println("I got confused");
     }
 }
+
+//will work perfectly
+
+public class String
+{
+    public static void main (java.lang.String[] args)
+    {
+        System.out.println("I got confused");
+    }
+}
+
 ```
-- JVM will complain that, it did not find method main() in the String class. Also, since String is an inbuilt class of Java. Because, the JVM was expecting a main method, with java.lang.String[] args, but it got a user defined class with user defined String[] argument.
+- JVM will complain that, it did not find method main() in the String class. Also, since String is an inbuilt class of Java. Because, the JVM was expecting a main method, with java.lang.String[] args, but it got a user defined class with user defined String[] argument. Because, the order in which JVM will search for the class is the current package first, then the classpath. But if we replace the String in the main args with java.lang.String, it will run perfectly.
+
 
 ### Other data structures and collections
 * TreeSet will sort the elements when adding in ascending order, and eliminate duplicates. (because, set.)

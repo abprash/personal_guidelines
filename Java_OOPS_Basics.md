@@ -75,8 +75,41 @@ public void setHeight(int h){
 
 ### Inheritance and Polymorphism
 * **Remember that inheritance is used to change behavior. So methods represent behavior and instance variables represent state.**
-* You can hide a field, but **not override** it.
-* **It is extremely bad practice to hide fields, but the example shows it.**
+* You can hide a field, but **not override** it. **Member fields cannot be overridden**. Always remember it. So, if we have a class where, there are two fields with same name and type, in both the parent and the child, and even though the parent reference is pointing to a child object, it will access the parent's member field. eg.
+```
+class A
+{
+    int x = 10;
+}
+
+// class B
+class B extends A
+{
+    int x = 20;
+}
+
+// Driver class
+public class Test
+{
+    public static void main(String args[])
+    {
+        A a = new B(); // object of type B
+
+        B b = new B();
+
+        // Data member of class A will be accessed
+        System.out.println(a.x);
+        System.out.println(b.x);
+    }
+}
+
+
+//*******************
+//OP
+10
+20
+```
+* **It is extremely bad practice to hide fields, but the example shows it. Member Field hiding**
 ```
 public class HideField {
 
@@ -151,6 +184,10 @@ as the first line of the child method's implementation.
 	* Should not change the return type alone. (Can change both arguments and return type both) The compiler will think you are trying to override it.
 
 ### Interfaces and Abstract Classes
+* **Abstract classes can have constructors. They can have many kinds of constructors. But they are not instantiated directly. So, the best way to think about constructors is, they are NOT USED TO BUILD THE OBJECT. Constructors are used to initialize the object's fields with certain values**
+* Then why do we need constructors for abstract classes?
+    * It is because, during the initialization of the subclasses, there may be a need to initialize the parent's fields with certain values. So, a constructor is useful. Done using the `super()` method.
+    * The parent's constructor is usually called first, and then the child's is called. (Remember Head first Java?)
 * Some classes **SHOULD** not be instantiated. For eg. from Animal class, Canines -> Dog and Wolf, Hippo and Feline -> Cat, Tiger classes are created.
 * How does an Animal object look like? The truth is we do not need an Animal object ever. So its better we simply declare it as an abstract class or an interface.
 * **If a class is declared abstract, then the compiler will prevent any code from ever instantiating the class.**

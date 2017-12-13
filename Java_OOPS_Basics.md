@@ -9,13 +9,13 @@
 
 ### Basic data types and their ranges
 * boolean - true, false
-* char - 1 Byte 
+* char - 1 Byte
 * byte - 1 byte - range = -128 to 127
 * short - -2^15 to 2^15 - 1
 * int - (-2^31) to (2^31 - 1)
 * long - -2^63 to 2^63 - 1
 * float -  
-* double - 
+* double -
 * For bigger numbers, it is better to use BigDecimal classes.
 * Enumerations can serve a purpose of representing a group of constants belonging to a set/group in a programming language. You can think of them like constants.
 eg. Notice that there is no class keyword. This declaration should not be inside a method, but can be in a class or outside it.
@@ -24,10 +24,10 @@ eg. Notice that there is no class keyword. This declaration should not be inside
 enum Color
 {
     RED, GREEN, BLUE;
-} 
-///or 
+}
+///or
 enum Card{
-    SPADE, CLUB, HEART, DIAMOND 
+    SPADE, CLUB, HEART, DIAMOND
 }
 ```
 * Every enum constant is always implicitly **public static final**. Since it is static, we can access it by using enum Name. Since it is final, we can’t create child enums.
@@ -117,7 +117,7 @@ So, Bathroom **HAS A** tub works. So we are better off using tub as an instance 
 ```
 * If the inheritance is done right, then it should always pass the IS A test.
 * Here, the subclasses can choose to go with the parent class' implementation or **OVERRIDE** them. JVM always calls the lowest method implementation it finds. It starts with the lowest class and goes upwards until it gets the method.
-* if you want to call both the parent's method and child method as well and not completely replace, then simply have 
+* if you want to call both the parent's method and child method as well and not completely replace, then simply have
 ```
 public void method_name(){
 	super.method_name();
@@ -129,13 +129,14 @@ as the first line of the child method's implementation.
 
 * Polymorphism -> The object reference variable and the actual object are different types. Eg. Animal object reference variable can refer a Dog object or Cat object so forth.
 * Why are methods or classes declared final? It is because that marks the end of the inheritance tree. We cannot subclass it further. That is why most methods in the Java lang are marked final.
-* Private instance variables and private methods are not inherited.
+* Private instance variables and private methods are **not** inherited.
 * final classes are not inherited. Non public classes cannot be inherited outside the package.
-* 
+* We cannot directly access the grandfather's methods from the child class. We can only access the immediate parent's methods.
+* We can do method overriding (by having the same exact method signature as that of the parent class ), or hide the method (by having another static method with the same static method signature as the parent class.)
 
 ### Overriding
 * When you override a parent's method, you are agreeing to the contract.
-* The contract here being, the method. 
+* The contract here being, the method.
 	* The parent method's same arguments must be used. Because, from the point of the compiler, it will only be able to see the reference method and not the actual object's methods even though it may be a valid overload.
 	* It should not be less restrictive than the parent method.
 	* It should not throw more broader errors than the parent method.
@@ -188,13 +189,13 @@ as the first line of the child method's implementation.
 * But we can make a change to the super call, so that it accepts arguments, no problem at all.
 * A constructor's first call can be to either **this()** or **super()**, but not both. (So, ultimately the constructor which is invoked using this() may have the call to super())
 * this() -> Used when we have another constructor which may have the bulk of the initialization code inside it.
-* **this() CAN ONLY BE USED INSIDE A CONSTRUCTOR. Never outside it.** 
+* **this() CAN ONLY BE USED INSIDE A CONSTRUCTOR. Never outside it.**
 * So, the general rule is, the parents come before the children. No way that can be circumvented. Its just plain wrong.
-* There are 4 ways of creating objects. 
+* There are 4 ways of creating objects.
     * Using new,  -> ` Test t = new Test();`
     * using Class.forName("FUlly qualified Class_Name").newInstance(); -> `eg. Test t = (Test) Class.forName("com.pack.Test").newInstance();`
     * Using clone() -> ` Test t2 = (Test) t1.clone();`
-    * Deserialization -> 
+    * Deserialization ->
     ```
     FileInputStream file = new FileInputStream(filename);
     ObjectInputStream in = new ObjectInputStream(file);
@@ -213,14 +214,14 @@ btn.setOnAction(new EventHandler()
 ```
 
 ### Exceptions and their handling
-* Checked Exceptions must be declared (using the throws keyword) or caught. 
+* Checked Exceptions must be declared (using the throws keyword) or caught.
 	* Now the question comes, why not make all exceptions as checked.
 	* Ans. Because they are runtime exceptions. The compiler does not care about this. We cannot guarantee that the file will be present at the location/ or the server will be up. But, we can most certainly not exceed the array's length, or check if the character is numeric before parsing it.
 	* So, runtime exceptions can be prevented, and are most certainly due to the logic while programming.
 * A try-catch is for handling exceptional scenarios and not for handling flaws in the programs.
 * An exception is always of the type object -> **Exception**.
 * Compiler only cares about the checked exceptions and not the run time exceptions.
-* Usual blocks are 
+* Usual blocks are
 ```
 try{
 	//risky code goes here
@@ -243,13 +244,13 @@ finally(){
     		    }
     		    finally {
     		        System.out.println("bye");
-    		    } 
+    		    }
 ```
 * Exceptions are polymorphic in nature. Its the place where polymorphism is exercised to its max.
 * One can use the super class Exception to catch all the exceptions Just because, we can do that doesn't mean we should. Ideally we should write the catch blocks in increasing order of scope and catch. They should be ordered small to large.
 * You can simply duck when an exception arrives, and simply avoid it. Let the method calling you handle it. (There will always be a method calling you. Worst case, it will be main()).
 * So, if your method, declares an exception, then the method calling you must handle the exception. And when an exception occurs, the stack frame just gets popped off. and exception is passed to the calling method.
-* **HANDLE OR DECLARE.** 
+* **HANDLE OR DECLARE.**
 
 
 
@@ -274,38 +275,38 @@ finally(){
 	2. Instance blocks in the order they are written
 	3. at last main() method is invoked
 ```
-public class Boot 
+public class Boot
 {
     static String s;
-    
+
 
     //static block below
     static
     {
         s = "";
     }
-    
+
 
     //instance block below.... will get called after static blocks are done
     {
         System.out.println("GeeksforGeeks ");
     }
-    
+
 
     //another static block
     static
     {
         System.out.println(s.concat("practice.GeeksforGeeks "));
-    } 
-    
+    }
+
     //normal method ... do not worry
-    Boot() 
-    { 
+    Boot()
+    {
         System.out.println(s.concat("Quiz.GeeksforGeeks"));
     }
 
     //after static, instance blocks, finally this executes.
-    public static void main(String[] args) 
+    public static void main(String[] args)
     {
         new Boot();
         System.out.println("Videos.GeeksforGeeks");
@@ -313,7 +314,7 @@ public class Boot
 }
 ```
 * Static blocks are run only once. Initializer (or instance) blocks are run every time before the constructor.
-* 
+*
 
 
 ### Important Java predicting output questions and explanations
@@ -324,7 +325,7 @@ public class Boot
 ```
 public class Test1 {
     int x = 10;
-    
+
 public
     static void main(String[] args)
     {
@@ -359,7 +360,7 @@ public void Example(int x)
 * Aggregation and Composition - [this](https://stackoverflow.com/questions/734891/aggregation-versus-composition)
 * Difference between ArrayList and Vector. [this](https://stackoverflow.com/questions/2986296/what-are-the-differences-between-arraylist-and-vector)
     * Primary differences are
-        * Vectors say that they are thread safe, BUT its flawed. So not advisable to use them. 
+        * Vectors say that they are thread safe, BUT its flawed. So not advisable to use them.
         * Slow. Even get(), set() methods are synch.d
         * Arraylists grow by 50%, when capacity exceeded, whereas vectors simply double their capacity.
 * Jagged arrays are possible in Java.
@@ -381,7 +382,7 @@ Collections.sort(list_name, Collections.reverseOrder());
 * THere are two blocks static blocks and instance blocks. Static blocks get called only once - when the class is loaded, before the main method's invocation. But, instance blocks run, upon the creation of each instance. Every time an instance of that class is created, the instance block gets invoked.
 * What about multiple static and instance blocks? or Nested static and instance blocks?? Ans - If you think about it, nested static blocks do not make sense - as static blocks belong to the class, and they should be in the class level and no deeper. However, a class can have multiple instance blocks and static blocks. They will be invoked in the order they have been written in the program. There can be nested instance blocks as well. There can be plain nested blocks inside the static block as well, but there **should NOT be nested static blocks**.
 ```
-class Test2 
+class Test2
 {
     // static block
     static
@@ -414,7 +415,7 @@ class Test2
 
 //OP
 
-Hello from static block 1 
+Hello from static block 1
 Hello from s block 2
 Hello from s block 3
 Hello from main
@@ -450,7 +451,7 @@ public class String
 
 ```
 - JVM will complain that, it did not find method main() in the String class. Also, since String is an inbuilt class of Java. Because, the JVM was expecting a main method, with java.lang.String[] args, but it got a user defined class with user defined String[] argument. Because, the order in which JVM will search for the class is the current package first, then the classpath. But if we replace the String in the main args with java.lang.String, it will run perfectly.
-* Widening primitives -> This is used to convert chars into ints when used with operators like +/-. Java automatically promotes any byte/ short/ char to int when evaluating any arithmetic expression. 
+* Widening primitives -> This is used to convert chars into ints when used with operators like +/-. Java automatically promotes any byte/ short/ char to int when evaluating any arithmetic expression.
 * In an expression, if there is even one long/double the whole expression will get promoted to that.
 * A bit more on ClassCastException and when it is thrown. It is thrown when an object is casted to something which is not its superclass. eg.
 ```
@@ -464,7 +465,7 @@ class C extends A{}
 // You can cast A's reference to B ONLY IF the actual object is a B.
 ```
 * We can also use underscores to improve readability of numbers. They are like the equivalent of commas used to separate nos. This was from JDK7.
-* 
+*
 
 ### Interesting stuff about null in Java
 * null is case sensitive. null, Null and NULL are different.
@@ -478,7 +479,7 @@ Integer b = null;
 System.out.println(a instanceof Integer);
 System.out.println(b instanceof Integer);
 
-//OP 
+//OP
 //true
 //false
 ```
@@ -497,7 +498,7 @@ loopingConstructOne  {   //we can have statements before the outer but not inbet
 }
 ```
 * goto in Java is a reserved keyword, but it is not used. I think it is for future support in case they were to add in the future. If it is not used then why is it marked as a reserved keyword? Because, if it were added in the future, then codebases which have used goto as an identifier name will break and will probably be a messy affair albeit fixable. But yeah, to prevent things from breaking in the future. [here](https://stackoverflow.com/questions/2545103/is-there-a-goto-statement-in-java)
-* 
+*
 
 
 ### Other data structures and collections
@@ -525,7 +526,7 @@ public static void main(String[] args){
     //chrome will be started as a separate process
 }
 ```
-* We can get lots of cool nifty stuff from the Runtime object, using its super helpful methods like 
+* We can get lots of cool nifty stuff from the Runtime object, using its super helpful methods like
 ```
 Runtime.getRuntime().freeMemory(); // -> will give JVM's avail free mem
 Runtime.getRuntime().totalMemory();
@@ -546,7 +547,7 @@ Runtime.getRuntime().gc(); // will run the GC for us
 ### Shutdown hook in java
 * It is typically executed right after the last line in the program runs.
 * There can be multiple shutdown hooks as well, but we cannot guarantee the order, as they are separate threads typically.
-* So, when a program terminates, this happens, the VM begins its shutdown sequence,  where it will start all its registered shutdown hooks, in some unspecified order - but they are all executed concurrently. 
+* So, when a program terminates, this happens, the VM begins its shutdown sequence,  where it will start all its registered shutdown hooks, in some unspecified order - but they are all executed concurrently.
 * After all the hooks have been finished, VM will then invoke uninvoked finalizers (finalizers are nothing but the finalize methods) if finalization-on-exit has been enabled.
 * And then the VM halts.
 * Generally an OOP language will have either finalizers or destructors. Occasionally there are some languages like C++ which has both. Both almost do the same job. Finalize methods are called upon by the GC, whereas the destructors are deterministic and called by the programmers.

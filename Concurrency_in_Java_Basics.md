@@ -22,10 +22,10 @@
 	2. Like processes, they also provide their own runtime environment.
 	1. A process contains at least one thread and may extend to multiple.
 	1. It can be easier to create newer threads as they require lesser resources than processes.
-	3. Communication is often a problem, (Whyyyyy!!??) 
+	3. Communication is often a problem, (Whyyyyy!!??)
 
 ## Defining Threads and Starting them
-* There are two ways of starting and defining threads - which can be 
+* There are two ways of starting and defining threads - which can be
 	1. Implementing Runnable
 	```
 	public class IWillRun implements Runnable{
@@ -76,7 +76,7 @@ t.sleep(long millis, int nanosec);
 
 ```
 public class SomeThread extends Thread{
-	
+
 	public void run(){
 		//we will be doing some op here
 		String[] s = {"a","b","c","d"};
@@ -146,7 +146,7 @@ public class Sad{
 	}
 
 	public static void main(String [] args){
-		
+
 		Sad s = new Sad(); //this line will cause the StackOverflow exception.
 		//because it will load Sad class again, where it will be again invoking Sad again and again, which is on line 4
 		//thats it .. we are done
@@ -182,7 +182,7 @@ System.out.println(a == b); // will print false
 * When the Garbage collector is called, the corresponding class' finalize method is invoked upon it to clear up. But when we just simply orphan some other class' object, it will never be invoked. eg.
 ```
 public class GC_demo {
-	
+
 	public static void main(String[] args) throws InterruptedException{
 		GC_demo obj = new GC_demo();
 		String s = new String();
@@ -196,20 +196,20 @@ public class GC_demo {
 		//if the above thhread sleep line is commented, then both threads (GC and current main thread) will carry on executing.
 		System.out.println("main ends here");
 	}
-	
+
 	@Override
 	public void finalize(){
 		System.out.println("finalize called");
 		//if there are any exception causing code here, then the JVM will **ignore** it.
 		//WHY??
 		//because, at this stage, who really cares whether there is any exception when clearing up stuff. You just destroy everything.
-		
+
 	}
 
 }
 ```
 * GC can also run in the background after main returns.
-* GC will be called on the obj reference as many times as needed. If we initialize an obj ref variable to a to 100 different objects, then the first 99 objects will be orphaned for the GC to collect them. 
+* GC will be called on the obj reference as many times as needed. If we initialize an obj ref variable to a to 100 different objects, then the first 99 objects will be orphaned for the GC to collect them.
 * You can call a static method with a null instance (when the instance is NULL), but if you try with a non static method, it will throw a run time NullPointerException. (Because, the JVM will look at the class name, and directly invoke the static method.)
 * A method can have **varying** arguments (var args also called variadic functions) if we denote it with 3 dots.
 ```
@@ -231,3 +231,7 @@ System.out.println(temp.getData(new int[]{7,8,9}));
 * The class name of the file and the class name containing the main method should be the same. Else the JVM will complain that there is no main methood while **RUNNING.**
 * Calling thread's run() is simply like a method call, whereas, **start() is starting a new thread whose entry point is contents of method run()**.
 * Constructors cannot be enclosed in a try-catch block. It will be a compilation error.
+* The following [link](https://stackoverflow.com/questions/2536692/a-simple-scenario-using-wait-and-notify-in-java) explains the use of wait() and notify() well.
+```
+
+```

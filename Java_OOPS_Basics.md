@@ -181,7 +181,7 @@ as the first line of the child method's implementation.
 * An overloaded method is not the same as the overridden method.
 	* The access modifier can be changed in any direction.
 	* There can be different arguments.
-	* Should not change the return type alone. (Can change both arguments and return type both) The compiler will think you are trying to override it.
+	* Should not change the return type alone. (Can change both arguments and return type both) The compiler will think you are trying to override it. [why??](https://stackoverflow.com/questions/2439782/overload-with-different-return-type-in-java)
 
 ### Interfaces and Abstract Classes
 * **Abstract classes can have constructors. They can have many kinds of constructors. But they are not instantiated directly. So, the best way to think about constructors is, they are NOT USED TO BUILD THE OBJECT. Constructors are used to initialize the object's fields with certain values**

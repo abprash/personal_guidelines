@@ -22,7 +22,7 @@
 * BIF - Built In Functions
 * locals() = has a set of all variable names used in the current scope
 * str(x) = takes in an object as parameter to cast into a string. Usually used for printing anything like numbers, lists etc.
-* int(x) = will convert x into an integer. 
+* int(x) = will convert x into an integer.
 * print() = print("Something",file="file.txt") then, it will send contents to file.txt.
 * "string".strip() - its like java's trim(). will cut leading and trailing white spaces.
 * "string".split(",") - just like Java's split().
@@ -129,7 +129,7 @@ list = []
 #lets dump into a pickle first
 with open("file1.txt","wb") as fh1:
 	pickle.dump(list, fh1)
-	
+
 #then load from it
 with open("file1.txt","rb") as fh:
 	list_fromfile = fh.load()
@@ -190,7 +190,7 @@ class Athlete:
 # So when we do an object instantiation
 sarah = Athlete()
 # python then converts and processes this call as follows,
-# 
+#
 """
 Athlete().__init__(sarah)
 Athlete = name of the class
@@ -227,7 +227,7 @@ class Child(Parent):
 
 ### Database
 * Python3 comes with SQLite. (I did not know that. I thought that was an Android specific feature.)
-* A simple flow would go like this. 
+* A simple flow would go like this.
 	1. Import SQLite module.
 	3. Connect with the Database
 	5. Get the cursor. (a cursor is something with which we can interact with the db. Think of it like a DB instance to modify and play with db data)
@@ -235,5 +235,69 @@ class Child(Parent):
 	4. Commit or rollback as required.
 	5. Close db connection
 
+### Some interesting python output
+* We can access an instance's fields by acccessing `obj_name.__dict__`. eg.
+```
+class Geeks:
+    def __init__(self, id):
+        self.id = id
+
+manager = Geeks(100)
+
+manager.__dict__['life'] = 49
+
+print manager.life + len(manager.__dict__)
+
+# len(manager.__dict__) = 2 (as it has id and life as keys)
+
+```
+
+* An error is thrown for the following statement
+```
+a = "GeeksforGeeks "
+
+b = 13
+
+print a + b
+```
+* There is a docstring defined for this method, by putting a string on the first line after the start of the function definition. The docstring can be referenced using the __doc__ attribute of the function. And hence it prints the indexed string.
+```
+def gfgFunction():
+    "Geeksforgeeks is cool website for boosting up technical skills"
+    return 1
+
+print gfgFunction.__doc__[17:21]
+```
+* If there are default args objects, then the python prog only uses the same instance for each call.
+```
+def gfg(x,l=[]):
+    for i in range(x):
+        l.append(i*i)
+    print(l)
+
+gfg(2)
+gfg(3,[3,2,1])
+gfg(3)
+
+# OP -
+[0, 1]
+[3, 2, 1, 0, 1, 4]
+[0, 1, 0, 1, 4]
+```
+* Python will compare tuples with something as trivial as a < or > sign. And it won't throw an error unless the lengths of the tuples are different. eg.
+```
+tuple1 = (1, 2, 4, 3)
+tuple2 = (1, 2, 3, 4)
+print(tuple1 < tuple2)
+//OP - False
+```
+* Arithmetic operations on tuples as well as lists. * operator is used to concatenate tuples.
+```
+>>>2 * (1,2,3,4)
+>>>(1, 2, 3, 4, 1, 2, 3, 4)
+
+>>> 2 * [1,2,3]
+[1, 2, 3, 1, 2, 3]
 
 
+```

@@ -214,3 +214,62 @@ public class Clidlet extends Clidder
 
 //******************* OP - Clidlet
 ```
+* Take care in type conversions as well.
+```
+public class Test
+{
+    public static void main(String[] args)
+    {
+        byte var = 1;
+        var = (byte) var * 0; //line 1
+        byte data = (byte) (var * 0); //line 2
+        System.out.println(var);        
+    }
+}
+
+//OP - Compilation error due to line 1
+
+```
+* The overloaded methods must vary in signature. A method signature consists of the method name, args list and access specifier.
+```
+public class Test
+{
+    public int getData() //getdata() 1
+    {
+        return 0;
+    }
+    public long getData() //getdata 2
+    {
+        return 1;
+    }
+    public static void main(String[] args)
+    {
+        Test obj = new Test();
+        System.out.println(obj.getData());    
+    }
+}
+//results in a compilation error
+```
+*  As we know that we can initialize a blank final variable inside constructor also, but if there are more than one constructors then it is mandatory to initialize all final variables in all of them. This is because we can create an object of class by calling any one of the constructors, but if that constructor is not initializing any one of declared final variable than there is problem.
+* Interfaces can never be declared as final. They are meant to be implemented.
+* In case of a reference final variable(here sb), internal state of the object pointed by that reference variable can be changed. Note that this is not re-assigning. This property of final is called non-transitivity.
+```
+public static void main(String[] args)
+    {
+        final StringBuilder sb = new StringBuilder("Geeks");
+
+        sb.append("ForGeeks");
+
+        System.out.println(sb);
+    }
+```
+* If an abstract class implements an interface, then there is no mandatory need to implement all its methods. Any further concrete class which implements this abstract class will get all the replicated methods from the interface automatically.
+* We can use all the Java interface and class names as identifiers in our programs.
+```
+public static void main(String[] args){
+    int String = 65;
+        int Runnable = 97;
+
+        System.out.print(String + " : " + Runnable);
+      }
+```

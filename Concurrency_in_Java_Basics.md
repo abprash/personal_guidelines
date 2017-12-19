@@ -65,8 +65,8 @@ t.sleep(long millis, int nanosec);
 
 
 ## Interrupts
-* Basically, how the interrupts in thread can be thought of is like - giving a thread a gentle nudge thereby giving them the opportunity to exit cleanly, as opposed to calling thread_name.stop(), which (can lead to unpredictable behaviour) can be thought of as shooting the thread in the face with an assault rifle. [Credits to this SO answer](https://stackoverflow.com/questions/3590000/what-does-java-lang-thread-interrupt-do)
 * Now for the fun part.. How they work..
+* Basically, how the interrupts in thread can be thought of is like - giving a thread a gentle nudge thereby giving them the opportunity to exit cleanly, as opposed to calling thread_name.stop(), which (can lead to unpredictable behaviour) can be thought of as shooting the thread in the face with an assault rifle. [Credits to this SO answer](https://stackoverflow.com/questions/3590000/what-does-java-lang-thread-interrupt-do)
 	1. When a thread t1 wants to interrupt t2,
 	2. t1 will go and invoke t2.interrupt(). (Assuming that t1 has permissions to interrupt it, else t2 will throw a SecurityException)
 	3. The code of t2 will keep checking if there is an interrupt, if there is, it will throw an InterruptedException and exit out of the run() method.
@@ -235,3 +235,56 @@ System.out.println(temp.getData(new int[]{7,8,9}));
 ```
 
 ```
+### Synchronization
+* There are internal locks called monitor locks. Or simply monitors. These help in Synchronization.
+* There are two kinds of synchronized code,
+	* Synchronized methods
+	* Synchronized statements
+* Example of synchronized methods
+```
+public class SynchronizedCounter {
+    private int c = 0;
+
+    public synchronized void increment() {
+        c++;
+    }
+
+    public synchronized void decrement() {
+        c--;
+    }
+
+    public synchronized int value() {
+        return c;
+    }
+}
+
+```
+* Synchronized statements
+```
+public class MsLunch {
+    private long c1 = 0;
+    private long c2 = 0;
+    private Object lock1 = new Object();
+    private Object lock2 = new Object();
+
+    public void inc1() {
+        synchronized(lock1) {
+            c1++;
+        }
+    }
+
+    public void inc2() {
+        synchronized(lock2) {
+            c2++;
+        }
+    }
+}
+```
+* Every object has an intrinsic lock associated with it. If that object will be used by concurrent threads, then before modifying any of the fields, we have to acquire the lock and then do the operations on the object. And once done, releases the intrinsic lock. As long as one thread holds the intrinsic lock, another thread cannot acquire it without the first thread releasing it.
+* **Reentrant synchronization** - But a thread can acquire a lock that it already owns. Allowing a thread to acquire the same lock more than once enables reentrant synchronization. This describes a situation where synchronized code, directly or indirectly, invokes a method that also contains synchronized code, and both sets of code use the same lock. Without reentrant synchronization, synchronized code would have to take many additional precautions to avoid having a thread cause itself to block.
+* **Volatile keyword** - Think of this like a synchronization for variables. We cannot use synchronized with member variables, so it has to be with volatile. It will not cache it and always fetch it from main memory, so it is guaranteed that it will always be using the most fresh copy of that variable.
+	* Reads and writes are atomic for all variables - both objects and primitives. (except long and double)
+	* Reads and writes are atomic for all volatile declared variables. (including obj, and primitives - long and double )
+	* **LIveness** - A concurrent application's ability to execute in a timely manner is known as its liveness.
+* Deadlock - Where one process(P2) is waiting for another resource(R2) which in turn is held by the 2 nd process (P2). No useful work. endless waiting.
+* Livelock - The processes are running but are not doing any useful work.

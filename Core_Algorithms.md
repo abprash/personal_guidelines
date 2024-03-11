@@ -3,7 +3,7 @@
 * Arrays, Strings
 * Sliding window
 * Two pointers
-* Binary search
+* [Binary Search](https://github.com/abprash/personal_guidelines/blob/master/Core_Algorithms.md#BinarySearch "Binary Search")
 * Matrix
 * Hash maps
 * Interval type problems

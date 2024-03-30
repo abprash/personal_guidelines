@@ -115,7 +115,14 @@ public int[] sortArrayByParity(int[] nums) {
 * Prefix sum method -- Can be used to solve range sum type problems.
 
 ## Sliding window
-* 
+* The basic premise for sliding window problems is to use two pointers.
+* For sliding window problems, there are a few basic patterns
+  * A window of fixed width
+    * This would be used to solve moving average type problems.  
+  * Two pointers travelling together (either in fixed or varying speeds)
+    * The `fast` and `slow` pointer style is used to detect cycles in linked lists, performing in place array updates.   
+  * Two pointers in opposite directions
+    * This can be used to group 
 ## Binary Search
 * Typically used for searching a sorted collection in logarithmic time ie O(log N) where N is the number of elements in given collection.
 * There could be slight variations of this algorithm implemented based on the type of collection (like, rotated sorted arrays, arrays with duplicates etc.)

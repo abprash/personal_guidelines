@@ -66,6 +66,22 @@ class Solution {
     }
 }
 ```
+* If we want to find the greatest element to the right of a particular index, we can do it in linear time. Linear memory is optional, in case we need to use it multiple times. We'd need to iterate from the end of the array and keep recording the maximum number so far and record it.
+```
+class Solution {
+    public int[] replaceElements(int[] arr) {
+        int maxSoFar = -1;
+        int nextElem = -1;
+        for (int i=arr.length-1; i>=0; i--) {
+            maxSoFar = Math.max(nextElem, maxSoFar);
+            nextElem = arr[i]; // record this for the next iteration.
+            arr[i] = maxSoFar; // since we're overwriting index i
+            
+        }
+}
+```
+* Prefix sum method -- Can be used to solve many subarray type problems.
+* 
 ## Binary Search
 * Typically used for searching a sorted collection in logarithmic time ie O(log N) where N is the number of elements in given collection.
 * There could be slight variations of this algorithm implemented based on the type of collection (like, rotated sorted arrays, arrays with duplicates etc.)

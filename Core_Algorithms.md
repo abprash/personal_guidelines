@@ -80,7 +80,41 @@ class Solution {
         }
 }
 ```
-* Prefix sum method -- Can be used to solve many subarray type problems.
+* Say we want to cluster 2 types of numbers (say odd and even) to certain positions in the array, swapping them in place is an efficient approach.
+```
+Input: nums = [3,1,2,4]
+Output: [2,4,3,1]
+Explanation: The outputs [4,2,3,1], [2,4,1,3], and [4,2,1,3] would also be accepted.
+
+public int[] sortArrayByParity(int[] nums) {
+        // using extra memory - trivial - 2 pointers, beginning is for even, end is for odd
+        // constant memory
+        int l = 0, r = nums.length -1;
+        // l is for even, r = odd nos.
+        while (l < r) {
+            if (nums[l] % 2 != 0 && nums[r] %2 == 0) {
+                // swap
+                swap(nums, l, r);
+                r--;
+                l++;
+            } else if (nums[l] % 2 == 0 && nums[r] %2 != 0) {
+                // keep going, the numbers are in the right positions
+                l++;
+                r--;
+            } else if (nums[l] % 2 ==0 && nums[r] %2 == 0) {
+                // both point to even
+                l++;
+            } else if (nums[l] %2 == 1 && nums[r] %2 == 1) {
+                // both point to odd
+                r--;
+            }
+        }
+        return nums;
+    }
+```
+* Prefix sum method -- Can be used to solve range sum type problems.
+
+## Sliding window
 * 
 ## Binary Search
 * Typically used for searching a sorted collection in logarithmic time ie O(log N) where N is the number of elements in given collection.

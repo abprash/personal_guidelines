@@ -184,8 +184,8 @@ public int search(int[] nums, int target) {
   * Space - Constant space complexity for the above one.
 * Other types of problems include
   * Searching in rotated sorted array (without duplicates)
-  * The core idea is similar where we use binary search, but since the array is rotated, we want to ensure whenever we check the bounds, we're checking in the bounds which is sorted.
-  * If the target is present in the bounds, and the bounds are sorted, we can pick that side, or pick the other one.
+    * The core idea is similar where we use binary search, but since the array is rotated, we want to ensure whenever we check the bounds, we're checking in the bounds which is sorted.
+    * If the target is present in the bounds, and the bounds are sorted, we can pick that side, or pick the other one.
   ```
   TODO
   ```

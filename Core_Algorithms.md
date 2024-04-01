@@ -1,10 +1,11 @@
 # Core algorithms with various data structures for interviews
 
-* Arrays
+* [Arrays](#Arrays "Arrays")
 * Strings
-* Sliding window
-* Two pointers
-* [Binary Search](https://github.com/abprash/personal_guidelines/blob/master/Core_Algorithms.md#BinarySearch "Binary Search")
+* [Sliding window](#Sliding-window "Sliding Window")
+* [Two pointers](#Two-pointers "Two Pointers")
+* [Monotonic stack](#Monotonic-stack "Monotonic Stack")
+* [Binary Search](#Binary-search "Binary Search")
 * Matrix
 * Hash maps
 * Interval type problems
@@ -18,7 +19,7 @@
 * Backtracking
 * Union find
 
-## Arrays
+## [Arrays](#Arrays)
 * General programming patterns in array problems.
 * Below one is for moving zeros to the end of an array in place
   ```
@@ -67,6 +68,7 @@ class Solution {
 }
 ```
 * If we want to find the greatest element to the right of a particular index, we can do it in linear time. Linear memory is optional, in case we need to use it multiple times. We'd need to iterate from the end of the array and keep recording the maximum number so far and record it.
+* A similar technique can be leveraged for finding the smallest number to the right of a particular index.
 ```
 class Solution {
     public int[] replaceElements(int[] arr) {
@@ -80,9 +82,79 @@ class Solution {
         }
 }
 ```
-* Prefix sum method -- Can be used to solve many subarray type problems.
-* 
-## Binary Search
+* Say we want to cluster 2 types of numbers (say odd and even) to certain positions in the array, swapping them in place is an efficient approach.
+```
+Input: nums = [3,1,2,4]
+Output: [2,4,3,1]
+Explanation: The outputs [4,2,3,1], [2,4,1,3], and [4,2,1,3] would also be accepted.
+
+public int[] sortArrayByParity(int[] nums) {
+        // using extra memory - trivial - 2 pointers, beginning is for even, end is for odd
+        // constant memory
+        int l = 0, r = nums.length -1;
+        // l is for even, r = odd nos.
+        while (l < r) {
+            if (nums[l] % 2 != 0 && nums[r] %2 == 0) {
+                // swap
+                swap(nums, l, r);
+                r--;
+                l++;
+            } else if (nums[l] % 2 == 0 && nums[r] %2 != 0) {
+                // keep going, the numbers are in the right positions
+                l++;
+                r--;
+            } else if (nums[l] % 2 ==0 && nums[r] %2 == 0) {
+                // both point to even
+                l++;
+            } else if (nums[l] %2 == 1 && nums[r] %2 == 1) {
+                // both point to odd
+                r--;
+            }
+        }
+        return nums;
+    }
+```
+* Prefix sum method -- Can be used to solve range sum type problems.
+
+## [Sliding window](#Sliding-window)
+* The basic premise for sliding window problems is to use two pointers.
+* For sliding window problems, there are a few basic patterns
+  * A window of fixed width
+    * This would be used to solve moving average type problems.  
+  * Two pointers travelling together (either in fixed or varying speeds)
+    * The `fast` and `slow` pointer style is used to detect cycles in linked lists, performing in place array updates.   
+  * Two pointers in opposite directions
+    * This can be used to group 
+
+## [Two pointers](#Two-pointers)
+
+## [Monotonic stack](#Monotonic-stack)
+* Monotonic stacks can be used to find out next immediately greater element or next smaller element for all elements in an array in linear time. (Careful, not to be confused with the greatest/lowest element to the right of a given index).
+```
+class Solution {
+    public int[] dailyTemperatures(int[] temperatures) {
+        // Brute force - straightforward - quadratic time complexity
+        // Improved solution - using monotonic stack.
+        // variation of using next greater element
+        // How ?
+
+        Deque<Integer> deque = new ArrayDeque<>(); // only if a day is cooler than the one on top of stack, we will push it
+        int[] ans = new int[temperatures.length];
+        for (int i=0; i<temperatures.length; i++) {
+            int temp = temperatures[i];
+            // if we come across a colder temp -- add it to stack
+            // we've come across a warmer temperature - so step back to the indices so far on the stack and pop them
+            while (!deque.isEmpty() && temp > temperatures[deque.peekFirst()]) {
+                int pastIndex = deque.removeFirst();
+                ans[pastIndex] = i - pastIndex;
+            }
+            deque.addFirst(i); // add current temp as well
+        }
+        return ans;
+    }
+}
+``` 
+## [Binary Search](#Binary-search)
 * Typically used for searching a sorted collection in logarithmic time ie O(log N) where N is the number of elements in given collection.
 * There could be slight variations of this algorithm implemented based on the type of collection (like, rotated sorted arrays, arrays with duplicates etc.)
 

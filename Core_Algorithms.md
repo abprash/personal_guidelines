@@ -1,10 +1,10 @@
 # Core algorithms with various data structures for interviews
 
-* Arrays
+* [Arrays](#Arrays "Arrays")
 * Strings
-* Sliding window
-* Two pointers
-* Monotonic stack
+* [Sliding window](#Sliding-window "Sliding Window")
+* [Two pointers](#Two-pointers "Two Pointers")
+* [Monotonic stack](#Monotonic-stack "Monotonic Stack")
 * [Binary Search](#Binary-search "Binary Search")
 * Matrix
 * Hash maps
@@ -19,7 +19,7 @@
 * Backtracking
 * Union find
 
-## Arrays
+## [Arrays](#Arrays)
 * General programming patterns in array problems.
 * Below one is for moving zeros to the end of an array in place
   ```
@@ -116,7 +116,7 @@ public int[] sortArrayByParity(int[] nums) {
 ```
 * Prefix sum method -- Can be used to solve range sum type problems.
 
-## Sliding window
+## [Sliding window](#Sliding-window)
 * The basic premise for sliding window problems is to use two pointers.
 * For sliding window problems, there are a few basic patterns
   * A window of fixed width
@@ -126,9 +126,9 @@ public int[] sortArrayByParity(int[] nums) {
   * Two pointers in opposite directions
     * This can be used to group 
 
-## Two pointers
+## [Two pointers](#Two-pointers)
 
-## Monotonic stack
+## [Monotonic stack](#Monotonic-stack)
 * Monotonic stacks can be used to find out next immediately greater element or next smaller element for all elements in an array in linear time. (Careful, not to be confused with the greatest/lowest element to the right of a given index).
 ```
 class Solution {

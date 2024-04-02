@@ -153,7 +153,33 @@ class Solution {
         return ans;
     }
 }
-``` 
+```
+* Variation of the above problem, where we have to find the next smaller or equal element.
+```
+    public int[] finalPrices(int[] prices) {
+        // this is a variation of next greater element.
+        // instead of next greater element, we're finding out the next smaller or equal element
+        Deque<Integer> deque = new ArrayDeque<>();
+        int[] ans = new int[prices.length];
+        for (int i=0; i<prices.length; i++) {
+            
+            int currPrice = prices[i];
+            // if curr num. is larger than the past num in the stack, we will push it
+            // if curr num, is smaller, we will start processing it, and applying the discount with the nos. in the stack
+            while(!deque.isEmpty() && currPrice <= prices[deque.peekFirst()]) {
+                int prevIndex = deque.removeFirst();
+                ans[prevIndex] = prices[prevIndex] - currPrice; // since currPrice is smaller 
+            }
+            deque.addFirst(i);
+        }
+        // the deque will have elements still remaining, so add them as is, if we cannot find a smaller or equal price after it,
+        while(!deque.isEmpty()) {
+            int popped = deque.removeFirst();
+            ans[popped] = prices[popped];
+        }
+        return ans;
+    }
+```
 ## [Binary Search](#Binary-search)
 * Typically used for searching a sorted collection in logarithmic time ie O(log N) where N is the number of elements in given collection.
 * There could be slight variations of this algorithm implemented based on the type of collection (like, rotated sorted arrays, arrays with duplicates etc.)

@@ -213,7 +213,7 @@ public int search(int[] nums, int target) {
     * The core idea is similar where we use binary search, but since the array is rotated, we want to ensure whenever we check the bounds, we're checking in the bounds which is sorted.
     * If the target is present in the bounds, and the bounds are sorted, we can pick that side, or pick the other one.
   ```
-  TODO
+  
   ```
   * Searching in rotated sorted array (with duplicates)
   ```
@@ -221,4 +221,28 @@ public int search(int[] nums, int target) {
   * Find the first and last occurrence of a number in an array with duplicates
   ```
   ```
-  * 
+  * Find minimum in a rotated sorted array
+  ```
+  class Solution {
+      public int findMin(int[] nums) {
+          // we need to move towards the pivot pt/ point where it is broken
+  
+          int low = 0, high = nums.length -1;
+          while (low <= high) {
+              int mid = low + (high - low)/2;
+              if (nums[low] < nums[mid] && nums[mid] < nums[high]) {
+                  // we're at a point where it's perfectly sorted. return low
+                  return nums[low];
+              }
+              if (mid - 1 >=0 && nums[mid] < nums[mid -1] && mid+1 < nums.length && nums[mid] < nums[mid + 1]) return nums[mid]; // this is the pivot
+              if (nums[mid] > nums[high]) {
+                  // pivot is within this range - right half
+                  low = mid + 1;
+              } else {
+                  high = mid - 1;
+              }
+          }
+          return nums[low];
+      }
+  }
+  ```

@@ -17,7 +17,7 @@
 * Graphs
 * Trie
 * Backtracking
-* Union find
+* [Union find](#Union-Find "Union Find")
 
 ## [Arrays](#Arrays)
 * General programming patterns in array problems.
@@ -113,6 +113,42 @@ public int[] sortArrayByParity(int[] nums) {
         }
         return nums;
     }
+```
+* Maximum subarray problem - Find maximum subarray when there are both negative and positive numbers in an array.
+```
+class Solution {
+    public int maxSubArray(int[] nums) {
+        
+        long max = Long.MIN_VALUE, currSum = 0;
+        for (int i=0; i<nums.length; i++) {
+            // 2 cases to handle - negative and positive num
+            // we should add a +ve num to the current sum regardless of sum value so far
+            // max sub array shouldn't start at a negative num
+            
+            if (nums[i] >= 0) {
+                // include this
+                currSum += nums[i];
+            } else {
+                // if we're starting - do not include
+                if (currSum == 0) continue;
+                else {
+                    // we're resetting it here
+                    currSum = (currSum + nums[i] > 0  ? currSum + nums[i] : 0);
+                    
+                }
+            }
+            max = Math.max(currSum, max);
+        }
+        
+        // below is to handle the negative number case
+        if (max == Long.MIN_VALUE) {
+            return Arrays.stream(nums)
+                .max()
+                .getAsInt();
+        }
+        return (int) max;
+    }
+}
 ```
 * Prefix sum method -- Can be used to solve range sum type problems.
 
@@ -213,7 +249,31 @@ public int search(int[] nums, int target) {
     * The core idea is similar where we use binary search, but since the array is rotated, we want to ensure whenever we check the bounds, we're checking in the bounds which is sorted.
     * If the target is present in the bounds, and the bounds are sorted, we can pick that side, or pick the other one.
   ```
-  TODO
+    class Solution {
+      public int search(int[] nums, int target) {
+          // should identify which side is sorted and decide accordingly
+  
+          int low = 0, high = nums.length - 1;
+          while (low <= high) {
+              int mid = low + (high - low) / 2;
+              if (nums[mid] == target)
+                  return mid;
+              if (nums[low] <= nums[mid]) {
+                  // left side is sorted
+                  if (target <= nums[mid] && target >= nums[low])
+                      high = mid - 1;
+                  else
+                      low = mid + 1;
+              } else {
+                  if (nums[mid] < target && target <= nums[high])
+                      low = mid + 1;
+                  else
+                      high = mid - 1;
+              }
+          }
+          return -1; // we haven't found the target
+      }
+  }
   ```
   * Searching in rotated sorted array (with duplicates)
   ```
@@ -221,4 +281,229 @@ public int search(int[] nums, int target) {
   * Find the first and last occurrence of a number in an array with duplicates
   ```
   ```
-  * 
+  * Find minimum in a rotated sorted array
+  ```
+  class Solution {
+      public int findMin(int[] nums) {
+          // we need to move towards the pivot pt/ point where it is broken, as that's the starting point for the unrotated array
+  
+          int low = 0, high = nums.length -1;
+          while (low <= high) {
+              int mid = low + (high - low)/2;
+              if (nums[low] < nums[mid] && nums[mid] < nums[high]) {
+                  // we're at a point where it's perfectly sorted. return low
+                  return nums[low];
+              }
+              if (mid - 1 >=0 && nums[mid] < nums[mid -1] && mid+1 < nums.length && nums[mid] < nums[mid + 1]) return nums[mid]; // this is the pivot
+              if (nums[mid] > nums[high]) {
+                  // pivot is within this range - right half
+                  low = mid + 1;
+              } else {
+                  high = mid - 1;
+              }
+          }
+          return nums[low];
+      }
+  }
+  ```
+## [Union Find](#Union-Find)
+* This is a first iteration of the union find algorithm with a quick find method. This is an eager evaluation.
+  ```
+  time complexities
+  ---
+  initialization = O(N) linear
+  union = O(N) linear
+  find = O(1) constant
+  ```
+Code:
+```
+public final class UF1 {
+
+    private final int[] components;
+
+    // construction + initialization of the components array
+    public UF1(int n) {
+        components = new int[n];
+        for (int i=0; i<n; i++) {
+            components[i] = i;
+        }
+    }
+
+    public void union(int p, int q) {
+        int rootP = components[p];
+        int rootQ = components[q];
+        if (rootP != rootQ) {
+            for (int i=0; i<components.length; i++) {
+                if (components[i] == rootP) {
+                    components[i] = rootQ;
+                }
+            }
+        }
+    }
+
+    // this is the find method
+    public boolean isConnected(int p, int q) {
+        return components[p] == components[q];
+    }
+}
+```
+* Approach 2 - Quick union. Lazy approach.
+```
+public class UF2 {
+
+    private final int[] components;
+
+    // construction + initialization of the components array
+    public UF2(int n) {
+        components = IntStream.rangeClosed(0, n).toArray();
+    }
+
+    public void union(int p, int q) {
+        int rootP = root(p);
+        int rootQ = root(q);
+        // now that we've found the roots of both, we can make either one point to the other
+        components[rootP] = rootQ;
+    }
+
+    public boolean isConnected(int p, int q) {
+        return root(p) == root(q);
+    }
+
+    // helper method to find the root of a given component
+    private int root(int a) {
+        // chase parent pointers until we reach the root
+        while(components[a] != a) {
+            a = components[a];
+        }
+        return a;
+    }
+}
+```
+* Approach 3 - Improving the previous implementation. Weighted quick union.
+```
+/**
+ * Weighted quick union algorithm
+ * Improvement to the previous iteration.
+ * Basic crux - we'll be considering the weight of the trees when performing union.
+ * Always ensuring the smaller tree will become the child of the larger tree (therefore
+ *  ensuring the trees don't get too tall)
+ *
+ *  We accomplish this by having another size array for each node in our components
+ *
+ *  Run time analysis
+ *  ---
+ *  Initialization - O(N)
+ *  Union - O(log N) (base 2)
+ *  find - O(log N) (base 2)
+ *
+ *
+ */
+public class UF3 {
+
+    private final int[] components;
+    private final int[] sizes;
+
+    // construction + initialization of the components array
+    public UF3(int n) {
+        sizes = new int[n];
+        Arrays.fill(sizes, 1); // initially all of them are disconnected so they're just 1
+
+        components = IntStream.rangeClosed(0, n).toArray();
+    }
+
+    public boolean isConnected(int p, int q) {
+        return root(p) == root(q);
+    }
+
+    public void union(int p, int q) {
+        int rootP = root(p);
+        int rootQ = root(q);
+        if (rootP != rootQ) {
+            /**
+             * this is where we do the union by rank or weight
+             */
+            if (sizes[rootP] < sizes[rootQ]) {
+                // smaller tree becomes the child of the bigger one. So, we keep some sort of balance
+                // add the sizes to the bigger tree
+                sizes[rootQ] += sizes[rootP];
+                components[rootP] = rootQ; // root of P now points to Q
+            } else {
+                // do the reverse of the above block
+                sizes[rootP] += sizes[rootQ];
+                components[rootQ] = rootP;
+            }
+        }
+    }
+
+    private int root(int a) {
+        while(a != components[a]) {
+            a = components[a];
+        }
+        return a;
+    }
+}
+```
+* Approach 4 - Weighted union find with path compression
+```
+/**
+ * Weighted quick union algorithm with path compression
+ * ---
+ * Improvement to the previous iteration.
+ * In addition to the previous UF with weighted unions, we will incorporate path compression,
+ * thereby shortening the path of each node to it's root shorter.
+ *
+ *  Run time analysis
+ *  ---
+ *  Initialization - O(N)
+ *  Union - O(log N) (M union find operations on a set of N nodes)
+ *  find - O(log N) (base 2)
+ *
+ *
+ */
+public class UF4 {
+
+    private final int[] components;
+    private final int[] sizes;
+
+    // construction + initialization of the components array
+    public UF4(int n) {
+        sizes = new int[n];
+        Arrays.fill(sizes, 1); // initially all of them are disconnected, so they're just 1
+
+        components = IntStream.rangeClosed(0, n).toArray();
+    }
+
+    public boolean isConnected(int p, int q) {
+        return root(p) == root(q);
+    }
+
+    public void union(int p, int q) {
+        int rootP = root(p);
+        int rootQ = root(q);
+        if (rootP != rootQ) {
+            /**
+             * this is where we do the union by rank or weight
+             */
+            if (sizes[rootP] < sizes[rootQ]) {
+                // smaller tree becomes the child of the bigger one. So, we keep some sort of balance
+                // add the sizes to the bigger tree
+                sizes[rootQ] += sizes[rootP];
+                components[rootP] = rootQ; // root of P now points to Q
+            } else {
+                // do the reverse of the above block
+                sizes[rootP] += sizes[rootQ];
+                components[rootQ] = rootP;
+            }
+        }
+    }
+
+    private int root(int a) {
+        while(a != components[a]) {
+            components[a] = components[components[a]]; /** one pass improvement for path compression.
+             Make each node in path, point to its grandparent. Thereby halving path length */
+            a = components[a];
+        }
+        return a;
+    }
+}
+```

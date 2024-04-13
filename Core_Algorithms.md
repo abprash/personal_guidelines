@@ -114,6 +114,42 @@ public int[] sortArrayByParity(int[] nums) {
         return nums;
     }
 ```
+* Maximum subarray problem - Find maximum subarray when there are both negative and positive numbers in an array.
+```
+class Solution {
+    public int maxSubArray(int[] nums) {
+        
+        long max = Long.MIN_VALUE, currSum = 0;
+        for (int i=0; i<nums.length; i++) {
+            // 2 cases to handle - negative and positive num
+            // we should add a +ve num to the current sum regardless of sum value so far
+            // max sub array shouldn't start at a negative num
+            
+            if (nums[i] >= 0) {
+                // include this
+                currSum += nums[i];
+            } else {
+                // if we're starting - do not include
+                if (currSum == 0) continue;
+                else {
+                    // we're resetting it here
+                    currSum = (currSum + nums[i] > 0  ? currSum + nums[i] : 0);
+                    
+                }
+            }
+            max = Math.max(currSum, max);
+        }
+        
+        // below is to handle the negative number case
+        if (max == Long.MIN_VALUE) {
+            return Arrays.stream(nums)
+                .max()
+                .getAsInt();
+        }
+        return (int) max;
+    }
+}
+```
 * Prefix sum method -- Can be used to solve range sum type problems.
 
 ## [Sliding window](#Sliding-window)

@@ -306,6 +306,92 @@ public int search(int[] nums, int target) {
       }
   }
   ```
+## Graphs
+* General algorithms for graph includes
+  * depth first search - for exploring the whole graph, problems like finding if a connection/path exits, general graph exploration,
+  * breadth first search - For finding shortest path **IFF the edges are unweighted**.
+  * Topological sorting - Can be used to detect any cycles in the graph, dependency ordering.
+  * Minimum spanning tree - Used to find the shortest path connecting all vertices in the graph.
+* Topological sorting
+```
+Topological sorting -- construct indegree map and prune edges 
+
+class Solution {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        List<Integer> ans = new ArrayList<>();
+
+        // build graph
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        for (int [] edge : prerequisites) {
+            // [to, from]
+            int from = edge[1];
+            int to = edge[0];
+            if (!graph.containsKey(from))
+                graph.put(from, new ArrayList<>());
+            if (!graph.containsKey(to))
+                graph.put(to, new ArrayList<>());
+            graph.get(from).add(to);
+        }
+
+        // build indegree map
+        Map<Integer, Set<Integer>> indegreeMap = new HashMap<>();
+        for(Map.Entry<Integer, List<Integer>> entry : graph.entrySet()) {
+            List<Integer> values = entry.getValue();
+            int from = entry.getKey();
+            for (Integer v : values) {
+                if (!indegreeMap.containsKey(v))
+                    indegreeMap.put(v, new HashSet<>());
+                indegreeMap.get(v).add(from);
+            }
+        }
+        for (int i=0; i<numCourses; i++) {
+            if (!indegreeMap.containsKey(i))
+                indegreeMap.put(i, new HashSet<>()); // need this to get starting point
+        }
+
+        // start topo sorting
+        Deque<Integer> deque = new ArrayDeque<>();
+        Integer start = getZeroIndegreeNode(indegreeMap);
+        if (start == null)
+            return new int[]{};
+        deque.addFirst(start);
+
+        while(!deque.isEmpty()) {
+            int curr = deque.removeFirst();
+            // add this one
+            ans.add(curr);
+            // get neighbors
+            List<Integer> neighbors = graph.getOrDefault(curr, new ArrayList<>());
+            for (int n : neighbors) {
+                // remove the indegree edge
+                indegreeMap.get(n).remove(curr);
+            }
+            // add back nodes to queue with zero indegree
+            Integer next = getZeroIndegreeNode(indegreeMap);
+            if (next != null)
+                deque.addLast(next);
+        }
+        // System.out.println(ans);
+        int[] res = new int[ans.size()];
+        for (int i=0; i<ans.size(); i++)
+            res[i] = ans.get(i);
+        // check if computed result is valid
+        return res.length == numCourses ? res : new int[]{};
+    }
+
+    private Integer getZeroIndegreeNode(Map<Integer, Set<Integer>> indegreeMap) {
+        Integer ans = indegreeMap.entrySet()
+            .stream()
+            .filter(entry -> entry.getValue().size() == 0)
+            .map(entry -> entry.getKey())
+            .findFirst().orElse(null);
+        if (ans != null && indegreeMap.get(ans).size() == 0) //delete it
+            indegreeMap.remove(ans);
+        return ans; 
+    }
+
+}
+```
 ## [Backtracking](#Backtracking)
 * Backtracking is a brute force approach of trying out all possible solutions and then checking if each solution is a fit.
 * Typical types of problems include, sudoku solvers, N-Queens problem, combinations, permutations, subset problems.

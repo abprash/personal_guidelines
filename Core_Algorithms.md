@@ -16,7 +16,7 @@
 * Binary search tree (BST)
 * Graphs
 * Trie
-* Backtracking
+* [Backtracking](#Backtracking)
 * [Union find](#Union-Find "Union Find")
 
 ## [Arrays](#Arrays)
@@ -306,6 +306,84 @@ public int search(int[] nums, int target) {
       }
   }
   ```
+## [Backtracking](#Backtracking)
+* Backtracking is a brute force approach of trying out all possible solutions and then checking if each solution is a fit.
+* Typical types of problems include, sudoku solvers, N-Queens problem, combinations, permutations, subset problems.
+* Permutation 1 - Get the permutation of given array - provided all numbers are distinct.
+```
+/*
+Input: nums = [1,2,3]
+Output: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+*/
+
+Time complexity -- Time complexity, what you should say in an interview: O(n⋅n!)O(n \cdot n!)O(n⋅n!)
+
+class Solution {
+    List<List<Integer>> ans;
+    public List<List<Integer>> permute(int[] nums) {
+        ans = new ArrayList<>();
+        boolean[] visited = new boolean[nums.length];
+        permutationHelper(nums, 0, new ArrayList<>(), visited);
+        return ans;
+    }
+
+    private void permutationHelper(int[] nums, int start, List<Integer> currList, boolean[] visited) {
+        int len = nums.length;
+        if (currList.size() == len) {
+            ans.add(new ArrayList(currList));
+            return;
+        }
+        for (int i=0; i<len; i++) {
+            int index = (i + start) % len;
+            if (visited[index]) continue;
+            currList.add(nums[index]);
+            visited[index] = true;
+            permutationHelper(nums, index + 1, currList, visited);
+            currList.remove(currList.size()-1);
+            visited[index] = false;
+        }
+    }
+}
+```
+* Permutation 2 - Get the permutation of given array - array has duplicates.
+```
+
+Time complexity, what you should say in an interview: O(n⋅n!)O(n \cdot n!)O(n⋅n!)
+
+
+class Solution {
+    List<List<Integer>> ans;
+
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        ans = new ArrayList<>();
+        boolean[] visited = new boolean[nums.length];
+        Arrays.sort(nums); // this is important to handle duplicates
+        permutationHelper(nums, 0, new ArrayList<>(), visited);
+        return ans;
+    }
+
+    private void permutationHelper(int[] nums, int start, List<Integer> currList, boolean[] visited) {
+        int len = nums.length;
+        if (currList.size() == len) {
+            ans.add(new ArrayList(currList));
+            return;
+        }
+        for (int i=0; i<len; i++) {
+            int index = (i + start) % len;
+            if (visited[index]) continue; // ensure we don't visit the same number again
+            // to handle duplicates - do not visit a previously visited index when the number is equal to the neighbor
+            if (index > 0 && nums[index-1] == nums[index] && visited[index-1]) { 
+                continue;
+            }
+            currList.add(nums[index]);
+            visited[index] = true;
+            permutationHelper(nums, index + 1, currList, visited);
+            currList.remove(currList.size()-1);
+            visited[index] = false;
+        }
+    }
+}
+```
 ## [Union Find](#Union-Find)
 * This is a first iteration of the union find algorithm with a quick find method. This is an eager evaluation.
   ```

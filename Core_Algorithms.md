@@ -16,7 +16,7 @@
 * Binary search tree (BST)
 * Graphs
 * Trie
-* Backtracking
+* [Backtracking](#Backtracking)
 * [Union find](#Union-Find "Union Find")
 
 ## [Arrays](#Arrays)
@@ -147,6 +147,62 @@ class Solution {
                 .getAsInt();
         }
         return (int) max;
+    }
+}
+```
+* Find number of subarrays equal to sum k
+```
+class Solution {
+    public int subarraySum(int[] nums, int k) {
+    if (nums == null || nums.length == 0) return 0;
+    // TODO - assert other invariants
+    int counter = 0;
+    int currSum = 0;
+    Map<Integer, Integer> map = new HashMap<>();
+    map.put(0,1);
+    for (int i=0; i<nums.length; i++) {
+        currSum += nums[i];
+        // currSum is sum until i'th index
+        if (map.containsKey(currSum-k))
+            counter += map.get(currSum-k);
+        
+        // put the accum. sum so far
+        map.put(currSum, map.getOrDefault(currSum, 0) + 1);
+    }
+    return counter;
+    }
+}
+```
+* Partition labels
+```
+class Solution {
+    public List<Integer> partitionLabels(String s) {
+        Map<Character, Integer> map = new HashMap<>();
+
+        for (int i=0; i<s.length(); i++) {
+            char c = s.charAt(i);
+            map.put(c, i); // this will always have the last occurrence of all letters
+        }
+
+        int p1 = 0, p2 = 0;
+        int addedParitionLength = 0;
+        List<Integer> ans = new ArrayList<>();
+
+        while (p1 < s.length() && p2 < s.length()) {
+            char c = s.charAt(p1);
+            // set p2 at last index of c, only if it is larger
+            p2 = Math.max(p2, map.get(c));
+            // when p1 and p2 meet, we know the partition has ended, add it
+            if (p1 == p2) {
+                if (ans.isEmpty())
+                    ans.add(p1 + 1); // since 0 indexed
+                else
+                    ans.add(p1 - addedParitionLength + 1);
+                addedParitionLength += ans.get(ans.size()-1);
+            }
+            p1++;
+        }
+        return ans;
     }
 }
 ```
@@ -306,6 +362,170 @@ public int search(int[] nums, int target) {
       }
   }
   ```
+## Graphs
+* General algorithms for graph includes
+  * depth first search - for exploring the whole graph, problems like finding if a connection/path exits, general graph exploration,
+  * breadth first search - For finding shortest path **IFF the edges are unweighted**.
+  * Topological sorting - Can be used to detect any cycles in the graph, dependency ordering.
+  * Minimum spanning tree - Used to find the shortest path connecting all vertices in the graph.
+* Topological sorting
+```
+Topological sorting -- construct indegree map and prune edges 
+
+class Solution {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        List<Integer> ans = new ArrayList<>();
+
+        // build graph
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        for (int [] edge : prerequisites) {
+            // [to, from]
+            int from = edge[1];
+            int to = edge[0];
+            if (!graph.containsKey(from))
+                graph.put(from, new ArrayList<>());
+            if (!graph.containsKey(to))
+                graph.put(to, new ArrayList<>());
+            graph.get(from).add(to);
+        }
+
+        // build indegree map
+        Map<Integer, Set<Integer>> indegreeMap = new HashMap<>();
+        for(Map.Entry<Integer, List<Integer>> entry : graph.entrySet()) {
+            List<Integer> values = entry.getValue();
+            int from = entry.getKey();
+            for (Integer v : values) {
+                if (!indegreeMap.containsKey(v))
+                    indegreeMap.put(v, new HashSet<>());
+                indegreeMap.get(v).add(from);
+            }
+        }
+        for (int i=0; i<numCourses; i++) {
+            if (!indegreeMap.containsKey(i))
+                indegreeMap.put(i, new HashSet<>()); // need this to get starting point
+        }
+
+        // start topo sorting
+        Deque<Integer> deque = new ArrayDeque<>();
+        Integer start = getZeroIndegreeNode(indegreeMap);
+        if (start == null)
+            return new int[]{};
+        deque.addFirst(start);
+
+        while(!deque.isEmpty()) {
+            int curr = deque.removeFirst();
+            // add this one
+            ans.add(curr);
+            // get neighbors
+            List<Integer> neighbors = graph.getOrDefault(curr, new ArrayList<>());
+            for (int n : neighbors) {
+                // remove the indegree edge
+                indegreeMap.get(n).remove(curr);
+            }
+            // add back nodes to queue with zero indegree
+            Integer next = getZeroIndegreeNode(indegreeMap);
+            if (next != null)
+                deque.addLast(next);
+        }
+        // System.out.println(ans);
+        int[] res = new int[ans.size()];
+        for (int i=0; i<ans.size(); i++)
+            res[i] = ans.get(i);
+        // check if computed result is valid
+        return res.length == numCourses ? res : new int[]{};
+    }
+
+    private Integer getZeroIndegreeNode(Map<Integer, Set<Integer>> indegreeMap) {
+        Integer ans = indegreeMap.entrySet()
+            .stream()
+            .filter(entry -> entry.getValue().size() == 0)
+            .map(entry -> entry.getKey())
+            .findFirst().orElse(null);
+        if (ans != null && indegreeMap.get(ans).size() == 0) //delete it
+            indegreeMap.remove(ans);
+        return ans; 
+    }
+
+}
+```
+## [Backtracking](#Backtracking)
+* Backtracking is a brute force approach of trying out all possible solutions and then checking if each solution is a fit.
+* Typical types of problems include, sudoku solvers, N-Queens problem, combinations, permutations, subset problems.
+* Permutation 1 - Get the permutation of given array - provided all numbers are distinct.
+```
+/*
+Input: nums = [1,2,3]
+Output: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+*/
+
+Time complexity -- Time complexity, what you should say in an interview: O(n * n!) -- an approximate growth can be modeled by substituting n with length and finding the length of result.
+
+class Solution {
+    List<List<Integer>> ans;
+    public List<List<Integer>> permute(int[] nums) {
+        ans = new ArrayList<>();
+        boolean[] visited = new boolean[nums.length];
+        permutationHelper(nums, 0, new ArrayList<>(), visited);
+        return ans;
+    }
+
+    private void permutationHelper(int[] nums, int start, List<Integer> currList, boolean[] visited) {
+        int len = nums.length;
+        if (currList.size() == len) {
+            ans.add(new ArrayList(currList));
+            return;
+        }
+        for (int i=0; i<len; i++) {
+            int index = (i + start) % len;
+            if (visited[index]) continue;
+            currList.add(nums[index]);
+            visited[index] = true;
+            permutationHelper(nums, index + 1, currList, visited);
+            currList.remove(currList.size()-1);
+            visited[index] = false;
+        }
+    }
+}
+```
+* Permutation 2 - Get the permutation of given array - array has duplicates.
+```
+
+Time complexity, what you should say in an interview: O(n * n! + N log N) (where n is the number of distinct elements, N is the total length)
+
+
+class Solution {
+    List<List<Integer>> ans;
+
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        ans = new ArrayList<>();
+        boolean[] visited = new boolean[nums.length];
+        Arrays.sort(nums); // this is important to handle duplicates
+        permutationHelper(nums, 0, new ArrayList<>(), visited);
+        return ans;
+    }
+
+    private void permutationHelper(int[] nums, int start, List<Integer> currList, boolean[] visited) {
+        int len = nums.length;
+        if (currList.size() == len) {
+            ans.add(new ArrayList(currList));
+            return;
+        }
+        for (int i=0; i<len; i++) {
+            int index = (i + start) % len;
+            if (visited[index]) continue; // ensure we don't visit the same number again
+            // to handle duplicates - do not visit a previously visited index when the number is equal to the neighbor
+            if (index > 0 && nums[index-1] == nums[index] && visited[index-1]) { 
+                continue;
+            }
+            currList.add(nums[index]);
+            visited[index] = true;
+            permutationHelper(nums, index + 1, currList, visited);
+            currList.remove(currList.size()-1);
+            visited[index] = false;
+        }
+    }
+}
+```
 ## [Union Find](#Union-Find)
 * This is a first iteration of the union find algorithm with a quick find method. This is an eager evaluation.
   ```

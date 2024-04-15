@@ -14,7 +14,7 @@
 * Heaps (or priority queues)
 * Tree
 * Binary search tree (BST)
-* Graphs
+* [Graphs](#Graphs)
 * Trie
 * [Backtracking](#Backtracking)
 * [Union find](#Union-Find "Union Find")
@@ -362,7 +362,7 @@ public int search(int[] nums, int target) {
       }
   }
   ```
-## Graphs
+## [Graphs](#Graphs)
 * General algorithms for graph includes
   * depth first search - for exploring the whole graph, problems like finding if a connection/path exits, general graph exploration,
   * breadth first search - For finding shortest path **IFF the edges are unweighted**.

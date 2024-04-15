@@ -150,6 +150,29 @@ class Solution {
     }
 }
 ```
+* Find number of subarrays equal to sum k
+```
+class Solution {
+    public int subarraySum(int[] nums, int k) {
+    if (nums == null || nums.length == 0) return 0;
+    // TODO - assert other invariants
+    int counter = 0;
+    int currSum = 0;
+    Map<Integer, Integer> map = new HashMap<>();
+    map.put(0,1);
+    for (int i=0; i<nums.length; i++) {
+        currSum += nums[i];
+        // currSum is sum until i'th index
+        if (map.containsKey(currSum-k))
+            counter += map.get(currSum-k);
+        
+        // put the accum. sum so far
+        map.put(currSum, map.getOrDefault(currSum, 0) + 1);
+    }
+    return counter;
+    }
+}
+```
 * Prefix sum method -- Can be used to solve range sum type problems.
 
 ## [Sliding window](#Sliding-window)

@@ -173,6 +173,39 @@ class Solution {
     }
 }
 ```
+* Partition labels
+```
+class Solution {
+    public List<Integer> partitionLabels(String s) {
+        Map<Character, Integer> map = new HashMap<>();
+
+        for (int i=0; i<s.length(); i++) {
+            char c = s.charAt(i);
+            map.put(c, i); // this will always have the last occurrence of all letters
+        }
+
+        int p1 = 0, p2 = 0;
+        int addedParitionLength = 0;
+        List<Integer> ans = new ArrayList<>();
+
+        while (p1 < s.length() && p2 < s.length()) {
+            char c = s.charAt(p1);
+            // set p2 at last index of c, only if it is larger
+            p2 = Math.max(p2, map.get(c));
+            // when p1 and p2 meet, we know the partition has ended, add it
+            if (p1 == p2) {
+                if (ans.isEmpty())
+                    ans.add(p1 + 1); // since 0 indexed
+                else
+                    ans.add(p1 - addedParitionLength + 1);
+                addedParitionLength += ans.get(ans.size()-1);
+            }
+            p1++;
+        }
+        return ans;
+    }
+}
+```
 * Prefix sum method -- Can be used to solve range sum type problems.
 
 ## [Sliding window](#Sliding-window)

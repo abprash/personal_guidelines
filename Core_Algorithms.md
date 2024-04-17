@@ -9,7 +9,7 @@
 * Matrix
 * Hash maps
 * Interval type problems
-* Stacks
+* [Stacks](#Stacks)
 * Linked list
 * Heaps (or priority queues)
 * Tree
@@ -362,6 +362,138 @@ public int search(int[] nums, int target) {
       }
   }
   ```
+## [Stacks](#Stacks)
+* Stack is a LIFO data structure which is versatile for evaluating expressions, monotonic stack is used to find interesting properties in an array like, finding next immediate greater or lesser element.
+* Below is an example of a problem which is used to parse a numerical expression which doesn't contain any parentheses.
+```
+
+Input: s = " 3+5 / 2 "
+Output: 5
+
+
+class Solution {
+    public int calculate(String s) {
+        // core idea is, if operator is + or - do it later, so we store it on top of stack
+        // if operator is * or /, do it right away
+        Deque<Integer> deque = new ArrayDeque<>();
+        int currentNum = 0;
+        char operator = '+';
+
+        for (int i = 0; i < s.length();) {
+            char c = s.charAt(i);
+            if (Character.isWhitespace(c)) {
+                i++;
+                continue;
+            }
+            if (Character.isDigit(c)) {
+                // keep going until the entire number is parsed
+                // set current number - num
+                int iter = i;
+                int num = 0;
+                while (iter < s.length() && Character.isDigit(s.charAt(iter))) {
+                    num = num * 10 + Character.getNumericValue(s.charAt(iter));
+                    iter++;
+                }
+                i = iter;
+                // check previous operator value
+                // since operators are in the middle, the number we parsed could be on the RHS of a previous number.
+                if (operator == '-' || operator == '+') {
+                    int res = operator == '-' ? -num : num;
+                    deque.addFirst(res);
+                } else if (operator == '/' || operator == '*') { 
+                    // if operator is * or /
+                    // we need to evaluate it
+                    int res = operator == '*' ? deque.removeFirst() * num : deque.removeFirst() / num;
+                    deque.addFirst(res);
+                }
+            } else {
+                // push curr num to the stack
+                operator = c;
+                i++;
+            }
+        }
+        int res = 0;
+        while (!deque.isEmpty()) {
+            res += deque.removeFirst();
+        }
+        return res;
+    }
+}
+```
+* Extending the above implementation, we can solve it for expressions containing parentheses.
+```
+Input: s = "6-4/2"
+Output: 4
+
+Input: s = "2*(5+5*2)/3+(6/2+8)"
+Output: 21
+
+---
+
+class Solution {
+    public int calculate(String s) {
+        Deque<Integer> deque = new ArrayDeque<>();
+        char operator = '+';
+        // System.out.println("incoming string = "+s);
+        for (int i = 0; i < s.length();) {
+            char c = s.charAt(i);
+            if (Character.isWhitespace(c)) {
+                i++;
+                continue;
+            }
+            if (Character.isDigit(c)) {
+                // keep going until the entire number is parsed
+                // set current number - num
+                int iter = i;
+                int num = 0;
+                while (iter < s.length() && Character.isDigit(s.charAt(iter))) {
+                    num = num * 10 + Character.getNumericValue(s.charAt(iter));
+                    iter++;
+                }
+                i = iter;
+                // check previous operator value
+                if (operator == '-' || operator == '+') {
+                    int res = operator == '-' ? -num : num;
+                    deque.addFirst(res);
+                } else if (operator == '/' || operator == '*') { 
+                    // if operator is * or /
+                    // do the operation and store it back on the stack
+                    int res = operator == '*' ? deque.removeFirst() * num : deque.removeFirst() / num;
+                    deque.addFirst(res);
+                }
+            } else if (c == '(') {
+                // process this part of the equation recursively
+                int count = 0;
+                int start = i;
+                while (true) {
+                    char curr = s.charAt(i);
+                    if (curr == '(') count++;
+                    else if (curr == ')') count--;
+                    if (count == 0) break;
+                    i++;
+                }
+                int num = calculate(s.substring(start+1, i)); // lose the parens
+                // check previous operator value
+                if (operator == '-' || operator == '+') {
+                    int res = operator == '-' ? -num : num;
+                    deque.addFirst(res);
+                } else if (operator == '/' || operator == '*') { // if operator is * or /
+                    int res = operator == '*' ? deque.removeFirst() * num : deque.removeFirst() / num;
+                    deque.addFirst(res);
+                }
+            } else {
+                operator = c;
+                i++;
+            }
+        }
+        int res = 0;
+        while (!deque.isEmpty()) {
+            res += deque.removeFirst();
+        }
+        return res;
+    }
+}
+```
 ## [Graphs](#Graphs)
 * General algorithms for graph includes
   * depth first search - for exploring the whole graph, problems like finding if a connection/path exits, general graph exploration,

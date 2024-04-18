@@ -623,6 +623,48 @@ Space - O(N) linear
         return mst_weight;
     }
 ```
+* Single Shortest path - Dijkstra
+```
+There are n cities connected by some number of flights. You are given an array flights where flights[i] = [fromi, toi, pricei] indicates that there is a flight from city fromi to city toi with cost pricei.
+
+You are also given three integers src, dst, and k, return the cheapest price from src to dst with at most k stops. If there is no such route, return -1.
+
+---
+
+class Solution {
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        Map<Integer, List<int[]>> adj = new HashMap<>();
+        for (int[] i : flights) // E
+            adj.computeIfAbsent(i[0], value -> new ArrayList<>()).add(new int[] { i[1], i[2] });
+
+        int[] stops = new int[n]; // V
+        Arrays.fill(stops, Integer.MAX_VALUE);
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[0] - b[0]);
+        // {dist_from_src_node, node, number_of_stops_from_src_node}
+        pq.offer(new int[] { 0, src, 0 });
+
+        while (!pq.isEmpty()) {
+            int[] temp = pq.poll(); // O(1)
+            int dist = temp[0];
+            int node = temp[1];
+            int steps = temp[2];
+            // We have already encountered a path with a lower cost and fewer stops,
+            // or the number of stops exceeds the limit.
+            if (steps > stops[node] || steps > k + 1)
+                continue;
+            stops[node] = steps;
+            if (node == dst)
+                return dist;
+            if (!adj.containsKey(node))
+                continue;
+            for (int[] a : adj.get(node)) { // V
+                pq.offer(new int[] { dist + a[1], a[0], steps + 1 }); // log E 
+            }
+        }
+        return -1;
+    }
+}
+```
 ## [Backtracking](#Backtracking)
 * Backtracking is a brute force approach of trying out all possible solutions and then checking if each solution is a fit.
 * Typical types of problems include, sudoku solvers, N-Queens problem, combinations, permutations, subset problems.

@@ -22,7 +22,7 @@
 ## [Arrays](#Arrays)
 * General programming patterns in array problems.
 * Below one is for moving zeros to the end of an array in place
-  ```
+>  ```
   class Solution {
     public void moveZeroes(int[] nums) {
         // we need a readPtr and a writePtr

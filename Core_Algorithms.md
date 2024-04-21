@@ -8,7 +8,7 @@
 * [Binary Search](#Binary-search "Binary Search")
 * Matrix
 * Hash maps
-* [Interval type problems](#Intervals)
+* [Interval type problems](#Intervals "Intervals")
 * [Stacks](#Stacks)
 * Linked list
 * Heaps (or priority queues)
@@ -362,7 +362,7 @@ public int search(int[] nums, int target) {
       }
   }
   ```
-## [Interval types](#Intervals)
+## [Intervals](#Intervals)
 * General intuition for interval type problems is to sort them based on either start or end times or both as needed.
 * Problem to remove the minimum number of conflicts so that all intervals are non overlapping
 ```
@@ -429,7 +429,52 @@ class Solution {
   ```
   * Given a list of intervals, determine the minimum number of meeting rooms required to handle all the meetings.
   ```
+  High level approach is to first sort by start times.
+  Then have a min heap which sorts by end times. Start adding each interval to the heap.
+  When adding, check if any of the previous meeting will end before the current meeting being processed.
+  Poll from the min heap (will return the meeting which will end soonest), if polled one ends before current one - do not add it back, else add both back.
+  Return the size of min heap after processing every interval
+
+  ---
+  Given an array of meeting time intervals intervals where intervals[i] = [starti, endi], return the minimum number of conference rooms required.
+  Example 1:
+
+  Input: intervals = [[0,30],[5,10],[15,20]]
+  Output: 2
+  --- 
+
+  class Solution {
+      public int minMeetingRooms(int[][] intervals) {
+          // sort the intervals by their start time.
+          Arrays.sort(intervals, (a, b) -> a[0] - b[0]); // N log N
   
+          // now we start processing them one by one
+          // the crux of the algo is, when we process one by one, we need to find out if there's any meeting that is still in progress.
+          // we will use a min heap to accomplish this.
+          PriorityQueue<int[]> minHeap = new PriorityQueue<>((a,b) -> a[1]-b[1]); 
+  
+          for (int[] interval : intervals) { // N times
+              // check if any meeting is in progress, and find the one which will terminate the soonest
+              if (minHeap.isEmpty()) {
+                  // no rooms are available, add it
+                  minHeap.offer(interval);
+                  continue;
+              }
+              // get the earliest meeting
+              int[] top = minHeap.poll(); // log N
+              if (top[1] <= interval[0]) {
+                  // the meeting is already done. So, we can reuse the room
+                  // minHeap.offer(interval);
+              } else {
+                  // meeting isn't done, so add both of them'
+                  minHeap.offer(top);
+              }
+              minHeap.offer(interval);
+          }
+  
+          return minHeap.size();
+      }
+  }
   ```
 ## [Stacks](#Stacks)
 * Stack is a LIFO data structure which is versatile for evaluating expressions, monotonic stack is used to find interesting properties in an array like, finding next immediate greater or lesser element.

@@ -8,7 +8,7 @@
 * [Binary Search](#Binary-search "Binary Search")
 * Matrix
 * Hash maps
-* Interval type problems
+* [Interval type problems](#Intervals)
 * [Stacks](#Stacks)
 * Linked list
 * Heaps (or priority queues)
@@ -361,6 +361,75 @@ public int search(int[] nums, int target) {
           return nums[low];
       }
   }
+  ```
+## [Interval types](#Intervals)
+* General intuition for interval type problems is to sort them based on either start or end times or both as needed.
+* Problem to remove the minimum number of conflicts so that all intervals are non overlapping
+```
+Given an array of intervals intervals where intervals[i] = [starti, endi], return the minimum number of intervals you need to remove to make the rest of the intervals non-overlapping.
+
+---
+
+class Solution {
+    public int eraseOverlapIntervals(int[][] intervals) {
+        Arrays.sort(intervals, (a, b) -> {
+            if (a[0] != b[0]) 
+                return a[0] - b[0];
+            else 
+                return a[1] - b[1];
+        });
+        
+        // Arrays.stream(intervals)
+        // .forEach(i -> System.out.println(Arrays.toString(i)));
+        
+        int ans = 0;
+        int[] prev = null;
+        for (int i=0; i<intervals.length; i++) {
+            int[] curr = intervals[i]; 
+            if (prev == null) {
+                prev = intervals[i];
+            } else {
+                // compare with prev
+                if (prev[1] <= curr[0]) {
+                    // no overlap
+                    prev = curr;
+                } else {
+                    // we know it overlaps - check if prev one is ending after current
+                    // set prev to the interval with the shorter ending time.
+                    if (prev[1] > curr[1]) {
+                        prev = curr;
+                    }
+                    // we had a conflict - so, increment answer
+                    ans++;
+                }
+            }
+        }
+        return ans;
+    }
+}
+
+```
+* Meeting room type problems are popular examples as well.
+  * Given a list of intervals, determine if there are any conflicts.
+  ```
+    class Solution {
+      public boolean canAttendMeetings(int[][] intervals) {
+          Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
+  
+          for (int i = 0; i < intervals.length - 1; i++) {
+              int[] curr = intervals[i];
+              int[] next = intervals[i + 1];
+              if (curr[1] > next[0])
+                  return false;
+          }
+  
+          return true;
+      }
+  }
+  ```
+  * Given a list of intervals, determine the minimum number of meeting rooms required to handle all the meetings.
+  ```
+  
   ```
 ## [Stacks](#Stacks)
 * Stack is a LIFO data structure which is versatile for evaluating expressions, monotonic stack is used to find interesting properties in an array like, finding next immediate greater or lesser element.

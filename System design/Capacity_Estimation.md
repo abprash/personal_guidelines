@@ -10,7 +10,7 @@
 * 5 Years => has roughly 2000 days.
 
 ## Sizes
-* Size of a commen/post = ~100 KB
+* Size of a comment/post = ~100 KB
 * Size of an image = ~1 MB
 * Size of a short video = ~100 MB
 * Size of a long video = ~1000 MB (or 1 GB)

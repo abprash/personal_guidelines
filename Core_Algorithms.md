@@ -207,6 +207,76 @@ class Solution {
 }
 ```
 * Prefix sum method -- Can be used to solve range sum type problems.
+```
+Given an integer array nums and an integer k, return the number of non-empty subarrays that have a sum divisible by k.
+
+> Input: nums = [4,5,0,-2,-3,1], k = 5
+  Output: 7
+  Explanation: There are 7 subarrays with a sum divisible by k = 5:
+  [4, 5, 0, -2, -3, 1], [5], [5, 0], [5, 0, -2, -3], [0], [0, -2, -3], [-2, -3]
+
+
+public int subarraysDivByK(int[] nums, int k) {
+       
+        /*
+        The following are the key ideas:
+
+        Since they can be computed very easily, think in terms of running sums where
+        running_sum[i] = sum( nums[:i] )
+
+        Keep in mind that:
+        running_sum[i] - running_sum[j] = sum( nums[i+1:j] )
+
+        We're looking for
+        sum( nums[i+1:j] ) % k = 0
+
+        Which means that
+        (running_sum[i] - running_sum[j] )%k = 0
+
+        And consequently
+        running_sum[i] % k = running_sum[j] % k
+        */
+
+        int runningMod = 0, ans = 0;
+        Map<Integer, Integer> map = new HashMap<>(); // this will contain the mod values from 0 to k-1
+        map.put(0, 1);
+
+        for (int i=0; i<nums.length; i++) {
+            runningMod = (runningMod + nums[i] % k + k ) % k; // this is the running mod. We need to do this way to handle negative numbers modulo.
+            // find out if there is any other array with the same mod value in the map
+            ans += map.getOrDefault(runningMod, 0);
+            map.put(runningMod, map.getOrDefault(runningMod, 0) + 1);
+        }
+        return ans;
+    }
+```
+Yet another subarray prefix sum problem
+```
+Given an array of integers nums and an integer k, return the total number of subarrays whose sum equals to k.
+
+Input: nums = [1,1,1], k = 2
+Output: 2
+
+  public int subarraySum(int[] nums, int k) {
+        if (nums == null || nums.length == 0)
+            return 0;
+        // TODO - assert other invariants
+        int counter = 0;
+        int currSum = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(0, 1);
+        for (int i = 0; i < nums.length; i++) {
+            currSum += nums[i];
+            // currSum is sum until i'th index
+            if (map.containsKey(currSum - k))
+                counter += map.get(currSum - k);
+
+            // put the accum. sum so far -
+            map.put(currSum, map.getOrDefault(currSum, 0) + 1);
+        }
+        return counter;
+    }
+```
 
 ## [Sliding window](#Sliding-window)
 * The basic premise for sliding window problems is to use two pointers.

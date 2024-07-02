@@ -1,6 +1,7 @@
 # Core algorithms with various data structures for interviews
 
 * [Arrays](#Arrays "Arrays")
+* [Prefix Sum](#PrefixSum "Prefix Sum")
 * Strings
 * [Sliding window](#Sliding-window "Sliding Window")
 * [Two pointers](#Two-pointers "Two Pointers")
@@ -206,6 +207,7 @@ class Solution {
     }
 }
 ```
+## [Prefix Sum](#PrefixSum)
 * Prefix sum method -- Can be used to solve range sum type problems.
 ```
 Given an integer array nums and an integer k, return the number of non-empty subarrays that have a sum divisible by k.
@@ -277,7 +279,89 @@ Output: 2
         return counter;
     }
 ```
+* These variations of prefix sum problems use a slightly smarter way of leveraging the numerical property to make the algorithm more efficient. For the below ones, we leverage the modulo operator.
 
+```
+Given an integer array nums and an integer k, return true if nums has a good subarray or false otherwise.
+A good subarray is a subarray where:
+  * its length is at least two, and
+  * the sum of the elements of the subarray is a multiple of k.
+
+Example 1:
+
+Input: nums = [23,2,4,6,7], k = 6
+Output: true
+Explanation: [2, 4] is a continuous subarray of size 2 whose elements sum up to 6.
+Example 2:
+
+Input: nums = [23,2,6,4,7], k = 6
+Output: true
+Explanation: [23, 2, 6, 4, 7] is an continuous subarray of size 5 whose elements sum up to 42.
+42 is a multiple of 6 because 42 = 7 * 6 and 7 is an integer.
+
+/*******************/
+class Solution {
+    public boolean checkSubarraySum(int[] nums, int k) {
+        int[] remainderMod = new int[nums.length]; // this is going to hold the prefix sums mod-ded by k
+        int modSum = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i=0; i< nums.length; i++) {
+            modSum = (modSum + nums[i]) % k;
+            if (modSum == 0 && i >= 1) return true; // this subarray became divisible fully.
+            // check if this mod-ded value is in the map already
+            if (map.containsKey(modSum)) {
+                int prevIndex = map.get(modSum);
+                if (i - prevIndex >= 2) return true;
+            } else {
+                map.put(modSum, i);
+            }
+            remainderMod[i] = modSum;
+            // System.out.println(Arrays.toString(remainderMod));
+        }
+
+        return false;
+    }
+}
+```
+
+```
+Given an array of positive integers nums, remove the smallest subarray (possibly empty) such that the sum of the remaining elements is divisible by p. It is not allowed to remove the whole array.
+
+Return the length of the smallest subarray that you need to remove, or -1 if it's impossible.
+
+Example 1:
+
+Input: nums = [3,1,4,2], p = 6
+Output: 1
+Explanation: The sum of the elements in nums is 10, which is not divisible by 6. We can remove the subarray [4], and the sum of the remaining elements is 6, which is divisible by 6.
+Example 2:
+
+Input: nums = [6,3,5,2], p = 9
+Output: 2
+Explanation: We cannot remove a single element to get a sum divisible by 9. The best way is to remove the subarray [5,2], leaving us with [6,3] with sum 9.
+
+/*******************/
+
+class Solution {
+
+    public int minSubarray(int[] nums, int p) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int totalSum = 0, curr = 0; // we will be accumulating the total sum in this but, also mod-ding it along the way.
+        int ans = Integer.MAX_VALUE;
+        for (int num : nums) {
+            totalSum = (totalSum + num) % p;
+        }
+        map.put(0, -1);
+        for (int i=0; i<nums.length; i++) {
+            curr = (curr + nums[i]) % p;
+            map.put(curr, i); // put the current remainder and corresponding index. It is okay to overwrite with larger indices along the way
+            int required = (curr - totalSum + p) % p;
+            ans = Math.min(ans , i - map.getOrDefault(required, -nums.length));
+        }
+        return ans < nums.length ? ans : -1;
+    }
+}
+```
 ## [Sliding window](#Sliding-window)
 * The basic premise for sliding window problems is to use two pointers.
 * For sliding window problems, there are a few basic patterns

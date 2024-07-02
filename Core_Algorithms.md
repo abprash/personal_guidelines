@@ -1,6 +1,7 @@
 # Core algorithms with various data structures for interviews
 
 * [Arrays](#Arrays "Arrays")
+  * [Prefix Sum](#PrefixSum "Prefix Sum")
 * Strings
 * [Sliding window](#Sliding-window "Sliding Window")
 * [Two pointers](#Two-pointers "Two Pointers")
@@ -206,6 +207,7 @@ class Solution {
     }
 }
 ```
+## [Prefix Sum](#PrefixSum)
 * Prefix sum method -- Can be used to solve range sum type problems.
 ```
 Given an integer array nums and an integer k, return the number of non-empty subarrays that have a sum divisible by k.
@@ -276,6 +278,37 @@ Output: 2
         }
         return counter;
     }
+```
+* These variations of prefix sum problems use a slightly smarter way of leveraging the numerical property to make the algorithm more efficient.
+
+> Given an integer array nums and an integer k, return true if nums has a good subarray or false otherwise.
+A good subarray is a subarray where:
+  * its length is at least two, and
+  * the sum of the elements of the subarray is a multiple of k.
+
+```
+class Solution {
+    public boolean checkSubarraySum(int[] nums, int k) {
+        int[] remainderMod = new int[nums.length]; // this is going to hold the prefix sums mod-ded by k
+        int modSum = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i=0; i< nums.length; i++) {
+            modSum = (modSum + nums[i]) % k;
+            if (modSum == 0 && i >= 1) return true; // this subarray became divisible fully.
+            // check if this mod-ded value is in the map already
+            if (map.containsKey(modSum)) {
+                int prevIndex = map.get(modSum);
+                if (i - prevIndex >= 2) return true;
+            } else {
+                map.put(modSum, i);
+            }
+            remainderMod[i] = modSum;
+            // System.out.println(Arrays.toString(remainderMod));
+        }
+
+        return false;
+    }
+}
 ```
 
 ## [Sliding window](#Sliding-window)
